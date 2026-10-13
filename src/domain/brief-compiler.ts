@@ -1,5 +1,5 @@
-import { aiPatchSchema, briefSchema, formatKinds, type AiBriefPatchV1, type BriefV1, type RequirementV1, type ValidationIssue } from './contracts';
-import { reducedRatio } from './capability-fit';
+import { aiPatchSchema, briefSchema, formatKinds, type AiBriefPatchV1, type BriefV1, type BriefDraftV1, type RequirementV1, type ValidationIssue } from './contracts/index.ts';
+import { reducedRatio } from './capability-fit.ts';
 export function validateBriefForPublish(value:unknown,now=new Date()):ValidationIssue[] {
   const parsed=briefSchema.safeParse(value);
   if(!parsed.success) return parsed.error.issues.map(i=>({path:i.path.join('.'),message:i.message}));
@@ -26,13 +26,13 @@ export function compileRequirements(b:BriefV1):RequirementV1[] {
   for(const o of b.outputs) {
     const add=(code:RequirementV1['kind'],expected:unknown,mode:RequirementV1['mode'])=>result.push({id:o.id+':'+code,outputId:o.id,kind:code,expected,mode,required:true});
     add('quantity',o.quantity,'file_check');add('format',{format:o.format,maxBytes:o.maxBytes},'file_check');
-    if(o.widthPx&&o.heightPx) add('dimensions',{widthPx:o.widthPx,heightPx:o.heightPx},'file_check');
+    if(o.widthPx&&o.heightPx) add('dimensions',{widthPx:o.widthPx,heightPx:o.heightPx},o.kind==='image'?'file_check':'brand_review');
     if(o.durationSec) add('duration',o.durationSec,'brand_review');
     add('content',{instructions:o.contentRequirements,mustInclude:b.mustInclude,mustAvoid:b.mustAvoid},'brand_review');
   }
   result.push({id:'brief:rights',kind:'rights',expected:b.rightsRequest,mode:'declaration_review',required:true});return result;
 }
-export function compileBrief(roughIdea:string,existing:Partial<BriefV1>={},now=new Date()) {
+export function compileBrief(roughIdea:string,existing:BriefDraftV1={},now=new Date()) {
   const draft={...existing};
   if(!draft.objective&&roughIdea.trim()) draft.objective=roughIdea.trim().slice(0,2000);
   const issues=validateBriefForPublish(draft,now),fields=Object.keys(briefSchema.shape);
@@ -45,3 +45,4 @@ export function applySuggestion(draft:Partial<BriefV1>,value:AiBriefPatchV1,acce
   const patch=aiPatchSchema.parse(value);
   return acceptedFields.includes('objectiveSuggestion')?{...draft,objective:patch.objectiveSuggestion}:{...draft};
 }
+

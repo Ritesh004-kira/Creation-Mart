@@ -14,6 +14,7 @@ export async function middleware(request:NextRequest) {
   const db=createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,{
     cookies:{getAll:()=>request.cookies.getAll(),setAll(items,cacheHeaders){
       items.forEach(({name,value})=>request.cookies.set(name,value));
+      headers.set('cookie',request.cookies.toString());
       response=NextResponse.next({request:{headers}});
       items.forEach(({name,value,options})=>response.cookies.set(name,value,options));
       Object.entries(cacheHeaders).forEach(([key,value])=>response.headers.set(key,value));

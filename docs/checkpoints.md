@@ -17,3 +17,21 @@
 Master_Goal explicitly requires PAUSED when essential confirmation/access is missing, overriding other files' instructions to keep coding. Hosting is required for completion. Confirm a strictly non-commercial personal demo purpose eligible for Hobby, or configure non-root scoped AWS access for the Amplify alternative. Do not send secrets in chat. Native pause is requested after this checkpoint; its returned state is authoritative.
 
 No app, migration, test, deployment, model, or complete gate is claimed. No external resources created; no new billable resource or expiry timer exists. Existing resources are preserved.
+
+## G1 foundation verified — 2026-10-13 10:21:00 UTC
+
+Product branding is Creation Mart, using the user's existing GitHub/Supabase/Vercel targets. User explicitly authorized root-connector IAM bootstrap and declined reconnection. No AWS provisioning has occurred.
+
+Code checkpoint 39ed220 pushed to implementation/creatormatch. Current repository visibility is public through both connector and CLI; no visibility mutation was performed. Supabase identity/profile migrations and two demo identities are actual persisted state. 52 unit tests, 13 actual-role integration checks and foundation browser tests passed. Current local preview runs in session 3328 on port 3000. Credentials are DPAPI-encrypted outside the repository. No web deployment has been made.
+
+Next: portfolio/assets/finalizer/publication and passports; then SQL-backed discovery, rights parity, briefs/shortlists and engagement workflow. Complete route/live deployment/AI/cleanup gates remain. Goal is ACTIVE; the full original objective is preserved.
+
+
+## P0 core checkpoint — 2026-10-13 13:02:39 UTC
+
+Private reserve/upload/finalize/publish path works against actual Storage bytes and RLS. Edge finalizer ACTIVE with verify_jwt=true; privileged client is confined to the Edge handler. Actual SHA-256/image dimensions and narrow signed reads verified. Public portfolio journey passed through browser uploads and publication.
+
+Six-section brand builder saves/reloads/publishes; DB derives stable requirements matching TypeScript. Direct invalid publish, stale versions, protected requirements and private reference access were tested. SQL-backed filters/fit/rights and persistent shortlists work. Ten real SQL/TS rights parity cases and five discovery checks passed; mobile zero-result recovery/Escape/focus verified.
+
+63 unit tests, 9 live portfolio checks, 6 live brief/shortlist checks and the browser core journeys passed. Full regression, extra quota/concurrency/rights cases, complete 12/24 media seed, P1 workflow and hosted deployment remain. Optional inference remains disabled; no AWS resource created.
+

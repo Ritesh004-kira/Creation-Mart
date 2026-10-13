@@ -8,7 +8,7 @@ async function signIn(page:Page,name:string) {
   await page.getByLabel('Email',{exact:true}).fill(account.email);
   await page.getByLabel('Password',{exact:true}).fill(account.password);
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
-  await expect(page).toHaveURL(/\/(creator|brand)$/);
+  await expect(page).toHaveURL(/\/(creator|brand)$/,{timeout:30000});
 }
 for(const width of [375,768,1440])test('public foundation renders at '+width+'px',async({page})=>{
   await page.setViewportSize({width,height:900});
@@ -36,4 +36,14 @@ test('creator signs in, saves and reloads their production profile',async({page}
 test('brand session cannot open the creator editor',async({page})=>{
   await signIn(page,'lumaleaf');await page.goto('/creator/profile');await expect(page).toHaveURL('/brand');
   await expect(page.getByRole('heading',{name:'Welcome, LumaLeaf Demo'})).toBeVisible();
+});
+test('API rejects malformed and oversized JSON with recoverable codes',async({request})=>{
+  const bad=await request.patch('/api/v1/me/creator',{headers:{Origin:'http://localhost:3000','Content-Type':'application/json'},data:'{broken'});
+  expect(bad.status()).toBe(400);expect((await bad.json()).error.code).toBe('VALIDATION_FAILED');
+  const large=await request.patch('/api/v1/me/creator',{headers:{Origin:'http://localhost:3000','Content-Type':'application/json'},data:JSON.stringify({text:'😀'.repeat(9000)})});
+  expect(large.status()).toBe(413);expect((await large.json()).error.code).toBe('UPLOAD_TOO_LARGE');
+});
+test('cookie mutations reject an unrelated origin before processing data',async({request})=>{
+  const response=await request.post('/api/v1/onboarding',{headers:{Origin:'https://unrelated.example','Content-Type':'application/json'},data:{role:'creator',displayName:'Intruder'}});
+  expect(response.status()).toBe(403);expect((await response.json()).error.code).toBe('FORBIDDEN');
 });

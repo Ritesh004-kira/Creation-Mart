@@ -1,0 +1,10 @@
+import { it,expect } from 'vitest';
+import { inspectMedia } from '../../src/domain/media-checks';
+import { makePng,makeWav } from '../../scripts/demo-media.mjs';
+it('checks actual PNG dimensions',()=>expect(inspectMedia(makePng(128,64),'png')).toMatchObject({mime:'image/png',widthPx:128,heightPx:64}));
+it('rejects SVG disguised as a PNG',()=>expect(()=>inspectMedia(new TextEncoder().encode('<svg></svg>'),'png')).toThrow());
+it('rejects a truncated image',()=>expect(()=>inspectMedia(makePng().slice(0,30),'png')).toThrow());
+it('enforces pixel dimension limit',()=>expect(()=>inspectMedia(makePng(4097,1),'png')).toThrow());
+it('checks actual PCM duration',()=>expect(inspectMedia(makeWav(2),'wav').checkedDurationSec).toBe(2));
+it('rejects malformed RIFF content',()=>expect(()=>inspectMedia(new Uint8Array(100),'wav')).toThrow());
+it('rejects invalid UTF8, NUL and unsupported binary formats',()=>{expect(()=>inspectMedia(new Uint8Array([255]),'txt')).toThrow();expect(()=>inspectMedia(new Uint8Array([65,0]),'txt')).toThrow();expect(()=>inspectMedia(new Uint8Array([1,2]),'glb')).toThrow();});

@@ -83,6 +83,11 @@ export const briefSchema = z.strictObject({
   mustAvoid:z.array(shortText).max(20),referenceLinks:z.array(z.url({protocol:/^https$/})).max(20),
   referenceRightsDeclaration:shortText,rightsRequest:rightsRequestSchema,
 });
+export const briefDraftSchema=briefSchema.partial().extend({
+ title:z.string().max(80).optional(),objective:z.string().max(2000).optional(),audience:z.string().max(2000).optional(),brandContext:z.string().max(2000).optional(),referenceRightsDeclaration:z.string().max(2000).optional(),
+ outputs:z.array(outputSchema.partial().extend({label:z.string().max(80).optional(),contentRequirements:z.string().max(2000).optional()})).max(10).optional(),rightsRequest:rightsRequestSchema.partial().optional(),
+});
+export type BriefDraftV1=Partial<Omit<BriefV1,'outputs'|'rightsRequest'>>&{outputs?:Partial<OutputV1>[];rightsRequest?:Partial<RightsRequestV1>};
 export const aiPatchSchema = z.strictObject({
   schemaVersion:z.literal(1),objectiveSuggestion:z.string().max(400),conceptSuggestion:z.string().max(400),
   questions:z.array(z.string().min(1).max(120)).max(3),

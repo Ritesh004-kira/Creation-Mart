@@ -8,4 +8,5 @@ coverage/
 work/
 *.log
 *.tsbuildinfo
+supabase/.temp/
 .openai/*credential*
