@@ -1,0 +1,14 @@
+import { it,expect } from 'vitest';
+import { supportsBrief,supportsOutput,reducedRatio } from '../../src/domain/capability-fit';
+import { creator,brief,video,image,now } from './fixtures';
+it('supports both associated outputs',()=>expect(supportsBrief(creator,brief,now)).toBe(true));
+it('does not combine portrait images with landscape video',()=>expect(supportsOutput([image,{...video,aspectRatios:['16:9']}],brief.outputs[0])).toBe(false));
+it('requires all output groups',()=>expect(supportsBrief({...creator,capabilities:[video]},brief,now)).toBe(false));
+it('requires all tools',()=>expect(supportsBrief({...creator,toolSlugs:['blender']},brief,now)).toBe(false));
+it('requires all skills',()=>expect(supportsBrief({...creator,skills:[]},brief,now)).toBe(false));
+it('requires all models',()=>expect(supportsBrief(creator,{...brief,requiredModels:['unknown']},now)).toBe(false));
+it('does not treat unknown duration as unlimited',()=>expect(supportsOutput([{...video,maxDurationSec:null}],brief.outputs[0])).toBe(false));
+it('does not convert currency',()=>expect(supportsBrief({...creator,currency:'USD'},brief,now)).toBe(false));
+it('checks declared availability and delivery date',()=>{expect(supportsBrief({...creator,available:false},brief,now)).toBe(false);expect(supportsBrief({...creator,deliveryDays:15},brief,now)).toBe(false);});
+it('checks dimensions within the same capability',()=>expect(supportsOutput([{...video,maxHeightPx:1080}],brief.outputs[0])).toBe(false));
+it('reduces integer ratios exactly',()=>expect(reducedRatio(1080,1920)).toBe('9:16'));

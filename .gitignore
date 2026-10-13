@@ -7,4 +7,5 @@ test-results/
 coverage/
 work/
 *.log
+*.tsbuildinfo
 .openai/*credential*

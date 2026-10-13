@@ -3,11 +3,11 @@
   "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
   "objective": "Build CreatorMatch end-to-end following System/Master_Goal.md.",
   "checkpointAt": "2026-10-13 08:47:52 UTC",
-  "phase": "preflight_checkpoint_awaiting_user",
+  "phase": "G1_foundation_verified_portfolio_next",
   "activeImplementationSeconds": 235,
   "activeImplementationLimitSeconds": 43200,
   "repository": "Ritesh004-kira/Creation-Mart",
-  "repositoryVisibility": "private",
+  "repositoryVisibility": "public",
   "repositoryPushPermissionVerified": true,
   "localBranch": "implementation/creatormatch",
   "remoteCommit": null,
@@ -25,7 +25,7 @@
   "awsCreditExpiration": "2027-03-20T06:30:31.256Z",
   "awsServiceCoverageVerified": false,
   "awsRegion": null,
-  "host": "unresolved",
+  "host": "vercel_existing_requested",
   "vercelPlan": "hobby",
   "vercelEligibilityVerified": false,
   "authorizedActions": [
@@ -46,12 +46,89 @@
   "deploymentUrl": null,
   "deploymentStatus": "not_started",
   "aiEnabled": false,
-  "implementedFeatures": [],
-  "testResults": [],
-  "browserResults": [],
-  "migrations": [],
-  "blocker": "Required eligible hosting is unresolved: Vercel Hobby non-commercial purpose needs confirmation; AWS Core is root and cannot provision under the specification.",
-  "requiredUserAction": "Confirm strictly personal/non-commercial purpose with no financial-gain purpose for Vercel eligibility, or reconnect AWS Core with a scoped non-root identity for the authorized Amplify alternative. Do not share credentials in chat.",
-  "nextTask": "After explicit resume, verify the resolved hosting prerequisite, bind Git CLI to Ritesh004-kira without exposing tokens, scaffold Node 22 / patched Next 15 application and start identity/catalog migration.",
-  "pauseSource": "System/Master_Goal.md: Explicit user-requested pause policy"
+  "implementedFeatures": [
+    "Strict domain contracts",
+    "Rights comparison and capability pairing functions",
+    "Deterministic brief compiler and requirement derivation",
+    "Real password authentication and immutable onboarding",
+    "Creator profile editor with persisted guarded saves",
+    "Role-aware dashboards and session refresh",
+    "Responsive foundation and keyboard skip navigation"
+  ],
+  "testResults": [
+    {
+      "suite": "unit",
+      "passed": 52,
+      "scope": "domain and redirect fixtures"
+    },
+    {
+      "suite": "integration",
+      "passed": 13,
+      "scope": "actual hosted identity/profile roles and direct negative probes"
+    },
+    {
+      "suite": "typecheck",
+      "status": "passed"
+    },
+    {
+      "suite": "lint",
+      "status": "passed"
+    },
+    {
+      "suite": "production build",
+      "status": "passed before latest redirect/body/CSS refinements; rebuild pending"
+    },
+    {
+      "suite": "npm audit",
+      "vulnerabilities": 0
+    }
+  ],
+  "browserResults": [
+    {
+      "suite": "foundation",
+      "passed": 5,
+      "scope": "375/768/1440 home; creator save/reload/sign-out; brand editor denial"
+    },
+    {
+      "suite": "public foundation after CSS refinement",
+      "passed": 3,
+      "scope": "375/768/1440"
+    }
+  ],
+  "migrations": [
+    {
+      "version": "20261013093256",
+      "name": "identity_catalog"
+    },
+    {
+      "version": "20261013094129",
+      "name": "profile_version_guard"
+    }
+  ],
+  "blocker": null,
+  "requiredUserAction": null,
+  "nextTask": "Implement portfolio/assets reservation/finalizer/publication with private Storage, then passports and real discovery",
+  "pauseSource": "System/Master_Goal.md: Explicit user-requested pause policy",
+  "productName": "Creation Mart",
+  "vercelProjectId": "prj_qNFGM4QpWt5foIgAkpJ8eYI51rGy",
+  "userOverrides": [
+    "Use existing Creation-Mart repository and Supabase project",
+    "Use existing creation-mart Vercel project",
+    "AWS root connector authorized for scoped IAM bootstrap; no reconnect requested"
+  ],
+  "localPreview": "http://localhost:3000",
+  "liveServerSession": 3328,
+  "credentialAccessLocation": "C:/Users/rites/.codex/secrets/creation-mart/c213484a-0c12-4cd6-a2a0-e4f67ae38db8.dpapi",
+  "remainingFeatures": [
+    "GitHub OAuth provider availability/callback verification",
+    "Portfolio/evidence/private uploads/finalizer/publication",
+    "Database discovery/scoring/rights parity",
+    "Persistent shortlists/compare",
+    "Brief builder/publish/revisions",
+    "Applications/selection/submissions/revision/acceptance/download",
+    "Full seed and media",
+    "Verified Vercel deployment/full live workflow",
+    "Scoped AWS IAM and optional worker/cost/expiry",
+    "Complete route/keyboard/security/browser gates and handoff"
+  ]
 }
