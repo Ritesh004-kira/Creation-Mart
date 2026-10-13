@@ -1,0 +1,10 @@
+.env*
+!.env.example
+node_modules/
+.next/
+playwright-report/
+test-results/
+coverage/
+work/
+*.log
+.openai/*credential*
