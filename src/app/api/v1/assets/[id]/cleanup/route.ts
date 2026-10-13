@@ -12,7 +12,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       if (error.context instanceof Response) { const problem = await error.context.json(); throw new HttpError(problem.error?.code ?? 'DEPENDENCY_UNAVAILABLE', error.context.status, problem.error?.message ?? 'The upload could not be removed.'); }
       throw new HttpError('DEPENDENCY_UNAVAILABLE', 503, 'The upload could not be removed. Try again.');
     }
-    if (!data.data.object_deleted_at) throw new HttpError('DEPENDENCY_UNAVAILABLE', 503, 'Deletion could not be confirmed. Your space remains reserved; retry removal.');
+    const blocked = data.data.reserved_bytes === 1 && Date.parse(data.data.upload_blocked_until ?? '') > Date.now();
+    if (!data.data.object_deleted_at && !blocked) throw new HttpError('DEPENDENCY_UNAVAILABLE', 503, 'Removal could not be confirmed. Your space remains reserved; retry removal.');
     return Response.json({ data: { id, removed: true }, requestId });
   } catch (error) { return errorResponse(error, requestId); }
 }

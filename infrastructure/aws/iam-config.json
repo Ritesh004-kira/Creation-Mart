@@ -1,0 +1,220 @@
+{
+  "account": "797129634517",
+  "region": "ap-south-1",
+  "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
+  "workerName": "CreationMart-Worker-c213484a",
+  "operatorName": "CreationMart-Operator-c213484a",
+  "workerArn": "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Worker-c213484a",
+  "operatorArn": "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Operator-c213484a",
+  "profileName": "CreationMart-Worker-c213484a",
+  "path": "/creation-mart/",
+  "managedPolicyArn": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+  "tags": [
+    {
+      "Key": "Project",
+      "Value": "CreationMart"
+    },
+    {
+      "Key": "Environment",
+      "Value": "hackathon"
+    },
+    {
+      "Key": "RunId",
+      "Value": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8"
+    },
+    {
+      "Key": "ManagedBy",
+      "Value": "CreationMartCodex"
+    }
+  ],
+  "workerTrust": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "ec2.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  },
+  "operatorTrust": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::797129634517:root"
+        },
+        "Action": [
+          "sts:AssumeRole",
+          "sts:SetSourceIdentity"
+        ],
+        "Condition": {
+          "StringEquals": {
+            "sts:SourceIdentity": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8"
+          },
+          "ArnEquals": {
+            "aws:PrincipalArn": "arn:aws:iam::797129634517:user/creation-mart/CreationMart-Operator-c213484a"
+          }
+        }
+      }
+    ]
+  },
+  "workerDeny": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "NoSecretOrAdministrativeAccess",
+        "Effect": "Deny",
+        "Action": [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:BatchGetSecretValue",
+          "kms:Decrypt",
+          "iam:*",
+          "ec2:*",
+          "s3:*"
+        ],
+        "Resource": "*"
+      }
+    ]
+  },
+  "operatorPolicy": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "RegionalInfrastructureRead",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:DescribeInstances",
+          "ec2:DescribeImages",
+          "ec2:DescribeInstanceTypes",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeVpcs",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeVolumes"
+        ],
+        "Resource": "*",
+        "Condition": {
+          "StringEquals": {
+            "aws:RequestedRegion": "ap-south-1"
+          }
+        }
+      },
+      {
+        "Sid": "ReadOwnRoles",
+        "Effect": "Allow",
+        "Action": "iam:GetRole",
+        "Resource": [
+          "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Worker-c213484a",
+          "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Operator-c213484a"
+        ]
+      },
+      {
+        "Sid": "ReadOwnProfile",
+        "Effect": "Allow",
+        "Action": "iam:GetInstanceProfile",
+        "Resource": "arn:aws:iam::797129634517:instance-profile/creation-mart/CreationMart-Worker-c213484a"
+      },
+      {
+        "Sid": "PassExactWorkerToEC2",
+        "Effect": "Allow",
+        "Action": "iam:PassRole",
+        "Resource": "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Worker-c213484a",
+        "Condition": {
+          "StringEquals": {
+            "iam:PassedToService": "ec2.amazonaws.com"
+          }
+        }
+      },
+      {
+        "Sid": "SessionOnThisRunOnly",
+        "Effect": "Allow",
+        "Action": "ssm:StartSession",
+        "Resource": "arn:aws:ec2:ap-south-1:797129634517:instance/*",
+        "Condition": {
+          "StringEquals": {
+            "ssm:resourceTag/Project": "CreationMart",
+            "ssm:resourceTag/RunId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8"
+          }
+        }
+      },
+      {
+        "Sid": "DefaultShellDocument",
+        "Effect": "Allow",
+        "Action": [
+          "ssm:StartSession",
+          "ssm:GetDocument"
+        ],
+        "Resource": "arn:aws:ssm:ap-south-1:797129634517:document/SSM-SessionManagerRunShell"
+      },
+      {
+        "Sid": "OwnSessionLifecycle",
+        "Effect": "Allow",
+        "Action": [
+          "ssm:ResumeSession",
+          "ssm:TerminateSession"
+        ],
+        "Resource": "arn:aws:ssm:ap-south-1:797129634517:session/${aws:userid}-*"
+      },
+      {
+        "Sid": "TaggedInstanceCleanup",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:StopInstances",
+          "ec2:TerminateInstances"
+        ],
+        "Resource": "arn:aws:ec2:ap-south-1:797129634517:instance/*",
+        "Condition": {
+          "StringEquals": {
+            "aws:ResourceTag/Project": "CreationMart",
+            "aws:ResourceTag/RunId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8"
+          }
+        }
+      },
+      {
+        "Sid": "TaggedVolumeCleanup",
+        "Effect": "Allow",
+        "Action": "ec2:DeleteVolume",
+        "Resource": "arn:aws:ec2:ap-south-1:797129634517:volume/*",
+        "Condition": {
+          "StringEquals": {
+            "aws:ResourceTag/Project": "CreationMart",
+            "aws:ResourceTag/RunId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8"
+          }
+        }
+      }
+    ]
+  },
+  "computeActivation": "disabled",
+  "serviceCreditCoverageVerified": false,
+  "grossPlanningLimitUsd": 5,
+  "maximumWorkers": 1,
+  "maximumWorkerLifetimeHours": 24,
+  "operatorIdentityName": "CreationMart-Operator-c213484a",
+  "operatorIdentityArn": "arn:aws:iam::797129634517:user/creation-mart/CreationMart-Operator-c213484a",
+  "operatorIdentityPolicy": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "AssumeOnlyCreationMartOperator",
+        "Effect": "Allow",
+        "Action": [
+          "sts:AssumeRole",
+          "sts:SetSourceIdentity"
+        ],
+        "Resource": "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Operator-c213484a",
+        "Condition": {
+          "StringEquals": {
+            "sts:SourceIdentity": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8"
+          }
+        }
+      }
+    ]
+  },
+  "operatorAuthentication": "No access keys or login password issued; dormant identity for scoped operator authentication."
+}

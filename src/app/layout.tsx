@@ -11,7 +11,7 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
     <nav className="nav" aria-label="Main navigation"><Link className="logo" href="/">Creation Mart<span style={{color:'#6d28d9'}}> ●</span></Link>
       <Link href="/creators">Browse creators</Link><Link href="/#how-it-works">How it works</Link>
       {data.user?<><Link href="/briefs">Briefs</Link><Link href="/dashboard">Dashboard</Link><form action="/api/v1/sign-out" method="post"><button className="button button-secondary" type="submit">Sign out</button></form></>:<Link className="button button-primary" href="/sign-in">Sign in</Link>}
-    </nav><main id="main" className="container">{children}</main>
+    </nav><main id="main" tabIndex={-1} className="container">{children}</main>
     <footer className="footer"><div className="container">Creation Mart · Process is declared. File checks describe the bytes. Rights receipts compare declarations and references.</div></footer>
   </body></html>;
 }

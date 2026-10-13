@@ -40,9 +40,17 @@ export default {fetch:async(req:Request)=>{
   if(asset.state==='ready'&&!input.operation?.includes('cleanup'))return result({data:asset,requestId});
   if(asset.state!=='pending'&&!(input.operation==='cleanup'&&asset.state==='rejected'))return result({error:{code:'INVALID_TRANSITION',message:'The file has already been processed.',requestId}},409);
   const reject=async(reason:string)=>{
+    if(asset.upload_blocked_until&&Date.parse(asset.upload_blocked_until)>Date.now())return {data:asset,error:null};
+    // Reject under the asset row lock before touching storage: a concurrent
+    // finalizer must not mark bytes ready while cancellation replaces them.
+    const {error:rejectError}=await ctx.supabaseAdmin.rpc('reject_asset_after_delete',{p_id:asset.id,p_deleted:false,p_reason:reason});
+    if(rejectError)return {data:null,error:rejectError};
     const {error:deleteError}=await ctx.supabaseAdmin.storage.from(asset.bucket).remove([asset.path]);
-    const {data,error}=await ctx.supabaseAdmin.rpc('reject_asset_after_delete',{p_id:asset.id,p_deleted:!deleteError,p_reason:reason});
-    return {data,error};
+    if(deleteError)return {data:null,error:deleteError};
+    if(asset.upload_blocked_until)return await ctx.supabaseAdmin.rpc('reject_asset_after_delete',{p_id:asset.id,p_deleted:true,p_reason:reason});
+    const {error:blockError}=await ctx.supabaseAdmin.storage.from(asset.bucket).upload(asset.path,new Uint8Array([0]),{contentType:'image/png',upsert:true});
+    if(blockError)return {data:null,error:blockError};
+    return await ctx.supabaseAdmin.rpc('record_asset_upload_blocker',{p_id:asset.id,p_until:new Date(Date.now()+2*60*60*1000+60*1000).toISOString(),p_reason:reason});
   };
   if(input.operation==='cleanup'){const done=await reject('Owner removed the rejected upload.');if(done.error)return result({error:{code:'DEPENDENCY_UNAVAILABLE',message:'The upload could not be removed.',requestId}},503);return result({data:done.data,requestId});}
   const {data:blob,error:downloadError}=await ctx.supabaseAdmin.storage.from(asset.bucket).download(asset.path);

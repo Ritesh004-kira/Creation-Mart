@@ -132,6 +132,7 @@ export type Database = {
           reserved_bytes: number
           sha256: string | null
           state: string
+          upload_blocked_until: string | null
           width_px: number | null
         }
         Insert: {
@@ -158,6 +159,7 @@ export type Database = {
           reserved_bytes: number
           sha256?: string | null
           state?: string
+          upload_blocked_until?: string | null
           width_px?: number | null
         }
         Update: {
@@ -184,6 +186,7 @@ export type Database = {
           reserved_bytes?: number
           sha256?: string | null
           state?: string
+          upload_blocked_until?: string | null
           width_px?: number | null
         }
         Relationships: [
@@ -972,6 +975,10 @@ export type Database = {
       }
       record_asset_check: {
         Args: { p_id: string; p_result: Json }
+        Returns: Json
+      }
+      record_asset_upload_blocker: {
+        Args: { p_id: string; p_reason: string; p_until: string }
         Returns: Json
       }
       reject_asset_after_delete: {

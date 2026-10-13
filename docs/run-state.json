@@ -2,9 +2,9 @@
   "baseline": "CM-2.0",
   "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
   "objective": "Build CreatorMatch end-to-end following System/Master_Goal.md.",
-  "checkpointAt": "2026-10-13 15:32:20 UTC",
-  "phase": "oauth_provider_verified_awaiting_successful_callback",
-  "activeImplementationSeconds": 16859,
+  "checkpointAt": "2026-10-13 17:56:12 UTC",
+  "phase": "release_source_ready",
+  "activeImplementationSeconds": 27000,
   "activeImplementationLimitSeconds": 43200,
   "repository": "Ritesh004-kira/Creation-Mart",
   "repositoryVisibility": "public",
@@ -16,7 +16,7 @@
   "supabasePlan": "free",
   "supabaseProjectState": "ACTIVE_HEALTHY",
   "existingApplicationTables": 0,
-  "existingMigrations": 0,
+  "existingMigrations": 14,
   "awsAccountId": "797129634517",
   "awsPrincipalType": "root",
   "awsAccountPlan": "FREE",
@@ -42,7 +42,11 @@
   "awsGrossPlanningLimitUsd": 5,
   "workerCount": 0,
   "workerExpiresAt": null,
-  "createdExternalResources": [],
+  "createdExternalResources": [
+    "14 Supabase canonical migrations and scoped fictional demo records",
+    "Private Storage buckets and finalize-asset Edge v4",
+    "Two run-scoped IAM roles, one profile and one dormant IAM user"
+  ],
   "deploymentUrl": null,
   "deploymentStatus": "not_started",
   "aiEnabled": false,
@@ -70,16 +74,27 @@
   "testResults": [
     {
       "suite": "unit",
-      "passed": 52,
-      "scope": "domain and redirect fixtures"
+      "passed": 70
     },
     {
-      "suite": "integration",
-      "passed": 13,
-      "scope": "actual hosted identity/profile roles and direct negative probes"
+      "suite": "hosted identity",
+      "passed": 13
     },
     {
-      "suite": "typecheck",
+      "suite": "hosted security",
+      "passed": 18
+    },
+    {
+      "suite": "acceptance guards",
+      "passed": 6
+    },
+    {
+      "status": "passed",
+      "suite": "signed-upload replay",
+      "scope": "Replay, upsert override, new mint and private read denied"
+    },
+    {
+      "suite": "production build",
       "status": "passed"
     },
     {
@@ -87,47 +102,8 @@
       "status": "passed"
     },
     {
-      "suite": "production build",
-      "status": "passed before latest redirect/body/CSS refinements; rebuild pending"
-    },
-    {
       "suite": "npm audit",
       "vulnerabilities": 0
-    },
-    {
-      "suite": "unit current",
-      "passed": 63
-    },
-    {
-      "suite": "live portfolio",
-      "passed": 9
-    },
-    {
-      "suite": "live briefs and shortlist",
-      "passed": 6
-    },
-    {
-      "suite": "rights SQL parity",
-      "passed": 10
-    },
-    {
-      "suite": "live discovery",
-      "passed": 5
-    },
-    {
-      "suite": "live workflow",
-      "passed": 6,
-      "scope": "actual application/v1/revision/v2/acceptance/private read"
-    },
-    {
-      "suite": "unit after trusted-origin implementation",
-      "passed": 70
-    },
-    {
-      "suite": "additional actual-role security probes",
-      "passed": 15,
-      "status": "incomplete_failure",
-      "failure": "One malformed submission unexpectedly accepted; remaining probes not run."
     }
   ],
   "browserResults": [
@@ -173,9 +149,9 @@
       "name": "claim_evidence_staleness"
     }
   ],
-  "blocker": "GitHub provider enabled; actual callback test reaches GitHub login in browser tab 3 and requires human sign-in/MFA/consent.",
-  "requiredUserAction": "Complete Creation Mart GitHub sign-in, return to the app, and explicitly resume. Do not send credentials in chat.",
-  "nextTask": "Repair the malformed submission accepted by test-security.mjs; complete callback, route/browser/security regression, actual Vercel deployment/live flow, scoped AWS IAM bootstrap and handoff.",
+  "blocker": null,
+  "requiredUserAction": null,
+  "nextTask": "Deploy existing Vercel project; verify production OAuth and canonical full live workflow; final handoff.",
   "pauseSource": "System/Master_Goal.md: Explicit user-requested pause policy",
   "productName": "Creation Mart",
   "vercelProjectId": "prj_qNFGM4QpWt5foIgAkpJ8eYI51rGy",
@@ -188,21 +164,15 @@
   "liveServerSession": 50456,
   "credentialAccessLocation": "C:/Users/rites/.codex/secrets/creation-mart/c213484a-0c12-4cd6-a2a0-e4f67ae38db8.dpapi",
   "remainingFeatures": [
-    "GitHub OAuth provider availability/callback verification",
-    "Portfolio/evidence/private uploads/finalizer/publication",
-    "Database discovery/scoring/rights parity",
-    "Persistent shortlists/compare",
-    "Brief builder/publish/revisions",
-    "Applications/selection/submissions/revision/acceptance/download",
-    "Full seed and media",
-    "Verified Vercel deployment/full live workflow",
-    "Scoped AWS IAM and optional worker/cost/expiry",
-    "Complete route/keyboard/security/browser gates and handoff"
+    "Verified production deployment",
+    "Production OAuth callback",
+    "Canonical full live rehearsal",
+    "Final documentation and cleanup records"
   ],
   "finalizer": {
     "id": "80233f6a-c990-4cd9-aa1a-a6a3bb4da302",
     "name": "finalize-asset",
-    "version": 3,
+    "version": 4,
     "status": "ACTIVE",
     "verifyJwt": true
   },
@@ -220,12 +190,12 @@
     "checks": "actual Edge hash/header/dimensions"
   },
   "oauthSetup": {
-    "githubEnabled": false,
+    "githubEnabled": true,
     "supabaseCallback": "https://kfwmhbmkauiosobpqbdu.supabase.co/auth/v1/callback",
     "applicationCallback": "https://creation-mart.vercel.app/auth/callback",
-    "loginTab": "GitHub sign-in to continue to Supabase",
+    "loginTab": "Local callback completed; human signed in at onboarding",
     "browserId": "2",
-    "tabId": "2"
+    "tabId": "3"
   },
   "vercelConfiguration": {
     "framework": "nextjs",

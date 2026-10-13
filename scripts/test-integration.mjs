@@ -17,6 +17,10 @@ for(const actor of [creator,brand]){
   const {data:existing}=await actor.db.from('accounts').select('role').eq('id',actor.record.userId).maybeSingle();
   if(!existing?.role){const actionKey=randomUUID();const {error}=await actor.db.rpc('onboard_account',{p_role:actor.record.role,p_display_name:actor.record.name==='asha'?'Asha Demo':'LumaLeaf Demo',p_key:actionKey});assert(!error,'Guarded onboarding failed.');actor.record.onboardingKey=actionKey;saveCredentials(credentials);}
 }
+const {data:originalProfile,error:originalError}=await creator.db.from('creator_profiles').select('*').eq('user_id',creator.record.userId).single();assert(!originalError);
+const originalInput=Object.fromEntries(['displayName:display_name','headline:headline','bio:bio','country:country','timezone:timezone','languages:languages','specialties:specialties','skills:skills','outcomes:outcomes','styles:styles','toolSlugs:tool_slugs','modelSlugs:model_slugs','capabilities:capabilities','minimumPriceMinor:minimum_price_minor','currency:currency','available:available','deliveryDays:delivery_days','rightsOffer:rights_offer'].map(pair=>{const [input,column]=pair.split(':');return [input,originalProfile[column]];}));
+try{
+if(originalProfile.published){const {error}=await creator.db.rpc('publish_creator',{p_expected_version:originalProfile.version,p_key:randomUUID(),p_published:false});assert(!error,'Could not enter the temporary draft privacy test.');}
 await check('real creator and brand sessions persist immutable roles',async()=>{
   for(const actor of [creator,brand]){const {data,error}=await actor.db.from('accounts').select('role').eq('id',actor.record.userId).single();assert(!error);assert.equal(data.role,actor.record.role);}
 });
@@ -55,3 +59,8 @@ await check('direct profile mutation without guarded version context is denied',
   const {error}=await creator.db.from('creator_profiles').update({headline:'Unconditional overwrite attempt'}).eq('user_id',creator.record.userId);assert(error);assert(error.message.includes('VERSION_CONFLICT'));
 });
 console.log(JSON.stringify({environment:url,scope:'identity foundation only',results}));
+}finally{
+ const {data:latest,error:read}=await creator.db.from('creator_profiles').select('version').eq('user_id',creator.record.userId).single();assert(!read);
+ const {data:restored,error:restore}=await creator.db.rpc('save_creator',{p_input:originalInput,p_expected_version:latest.version});assert(!restore,'Restore the original demo profile after the test.');
+ if(originalProfile.published){const {error}=await creator.db.rpc('publish_creator',{p_expected_version:restored.version,p_key:randomUUID(),p_published:true});assert(!error,'Restore original demo publication after the test.');}
+}
