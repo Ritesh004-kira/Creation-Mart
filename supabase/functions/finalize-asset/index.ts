@@ -2,6 +2,11 @@ import { createSupabaseContext } from 'npm:@supabase/server@1.9.2';
 import { inspectMedia } from './media-checks.ts';
 const headers={'Content-Type':'application/json','Cache-Control':'no-store','Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization, apikey, content-type, x-client-info'};
 function result(body:unknown,status=200){return Response.json(body,{status,headers});}
+async function boundedBody(req:Request){
+ const reader=req.body?.getReader();if(!reader)throw new Error('Missing body');const chunks:Uint8Array[]=[];let size=0;
+ try{while(true){const {value,done}=await reader.read();if(done)break;size+=value.length;if(size>2048){await reader.cancel();throw new RangeError('Body limit');}chunks.push(value);}}finally{reader.releaseLock();}
+ const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.length;}return new TextDecoder('utf-8',{fatal:true}).decode(bytes);
+}
 export default {fetch:async(req:Request)=>{
   const requestId=crypto.randomUUID();
   if(req.method==='OPTIONS')return new Response(null,{headers});
@@ -10,9 +15,9 @@ export default {fetch:async(req:Request)=>{
   if(context.error)return result({error:{code:'NOT_AUTHENTICATED',message:'Sign in to continue.',requestId}},401);
   const ctx=context.data;
   let input:{assetId:string;operation?:string};
-  try{const text=await req.text();if(new TextEncoder().encode(text).length>2048)throw new Error();input=JSON.parse(text);
+  try{input=JSON.parse(await boundedBody(req));
     if(!input||typeof input.assetId!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(input.assetId)||(input.operation!==undefined&&typeof input.operation!=='string')||Object.keys(input).some(k=>!['assetId','operation'].includes(k)))throw new Error();
-  }catch{return result({error:{code:'VALIDATION_FAILED',message:'Send an asset ID.',requestId}},400);}
+  }catch(error){return error instanceof RangeError?result({error:{code:'UPLOAD_TOO_LARGE',message:'The file action exceeds its request limit.',requestId}},413):result({error:{code:'VALIDATION_FAILED',message:'Send an asset ID.',requestId}},400);}
   const {data:asset,error:lookupError}=await ctx.supabase.from('assets').select('*').eq('id',input.assetId).maybeSingle();
   if(lookupError)return result({error:{code:'DEPENDENCY_UNAVAILABLE',message:'The file record could not be loaded.',requestId}},503);
   if(!asset)return result({error:{code:'NOT_FOUND',message:'That file is unavailable.',requestId}},404);

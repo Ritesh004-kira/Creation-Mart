@@ -41,5 +41,5 @@ export function PortfolioForm({id,initial,initialVersion,initialPublished,catalo
   <button type="button" className="button button-secondary" disabled={models.length>=20} onClick={()=>setModels([...models,{catalogSlug:null,customName:'',version:''}])}>Add model declaration</button><div className="field"><label htmlFor="modelDisclosureNote">Model disclosure note *</label><textarea id="modelDisclosureNote" name="modelDisclosureNote" maxLength={2000} defaultValue={initial.modelDisclosureNote} placeholder="If no model was used, say so. If the model is unknown, explain what you know."/></div></section>
   <section className="card" id="rightsOffer"><RightsEditor offer={initial.rightsOffer??profileOffer}/></section>
   <div className="actions"><Button disabled={busy}>{busy?'Saving…':'Save work'}</Button><Button type="button" variant="secondary" onClick={publish} disabled={busy}>{published?'Return to draft':'Publish saved work'}</Button><span role="status">{status}</span></div>
- </form><section className="card"><h2>Private process evidence</h2><p className="muted">Evidence is private. Attaching a screenshot does not prove authorship or licensing.</p><AssetUploader parentId={id} purpose="evidence" kind="image" onReady={()=>setStatus('Private evidence checked and stored.')}/></section></div>;
+ </form></div>;
 }

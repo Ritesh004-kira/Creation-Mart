@@ -2,8 +2,8 @@
   "baseline": "CM-2.0",
   "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
   "objective": "Build CreatorMatch end-to-end following System/Master_Goal.md.",
-  "checkpointAt": "2026-10-13 13:49:55 UTC",
-  "phase": "P1_local_workflow_verified_awaiting_oauth_login",
+  "checkpointAt": "2026-10-13 15:32:20 UTC",
+  "phase": "oauth_provider_verified_awaiting_successful_callback",
   "activeImplementationSeconds": 16859,
   "activeImplementationLimitSeconds": 43200,
   "repository": "Ritesh004-kira/Creation-Mart",
@@ -118,6 +118,16 @@
       "suite": "live workflow",
       "passed": 6,
       "scope": "actual application/v1/revision/v2/acceptance/private read"
+    },
+    {
+      "suite": "unit after trusted-origin implementation",
+      "passed": 70
+    },
+    {
+      "suite": "additional actual-role security probes",
+      "passed": 15,
+      "status": "incomplete_failure",
+      "failure": "One malformed submission unexpectedly accepted; remaining probes not run."
     }
   ],
   "browserResults": [
@@ -157,11 +167,15 @@
     {
       "version": "20261013094129",
       "name": "profile_version_guard"
+    },
+    {
+      "version": "20261013152049",
+      "name": "claim_evidence_staleness"
     }
   ],
-  "blocker": "GitHub OAuth provider disabled; Supabase dashboard requires GitHub login/MFA and CLI has no management token. User login/provider credential configuration is necessary.",
-  "requiredUserAction": "Sign in to the opened GitHub/Supabase dashboard tab, complete MFA, configure GitHub OAuth in the Creation-Mart Supabase project using the project callback, and explicitly resume. Never send secrets in chat.",
-  "nextTask": "Verify OAuth provider and callback settings; run remaining permission/concurrency/quotas and route tests; deploy and verify on existing Vercel project; configure scoped AWS IAM and optional inference only within cost gates",
+  "blocker": "GitHub provider enabled; actual callback test reaches GitHub login in browser tab 3 and requires human sign-in/MFA/consent.",
+  "requiredUserAction": "Complete Creation Mart GitHub sign-in, return to the app, and explicitly resume. Do not send credentials in chat.",
+  "nextTask": "Repair the malformed submission accepted by test-security.mjs; complete callback, route/browser/security regression, actual Vercel deployment/live flow, scoped AWS IAM bootstrap and handoff.",
   "pauseSource": "System/Master_Goal.md: Explicit user-requested pause policy",
   "productName": "Creation Mart",
   "vercelProjectId": "prj_qNFGM4QpWt5foIgAkpJ8eYI51rGy",
@@ -171,7 +185,7 @@
     "AWS root connector authorized for scoped IAM bootstrap; no reconnect requested"
   ],
   "localPreview": "http://localhost:3000",
-  "liveServerSession": 3328,
+  "liveServerSession": 50456,
   "credentialAccessLocation": "C:/Users/rites/.codex/secrets/creation-mart/c213484a-0c12-4cd6-a2a0-e4f67ae38db8.dpapi",
   "remainingFeatures": [
     "GitHub OAuth provider availability/callback verification",
@@ -188,7 +202,7 @@
   "finalizer": {
     "id": "80233f6a-c990-4cd9-aa1a-a6a3bb4da302",
     "name": "finalize-asset",
-    "version": 2,
+    "version": 3,
     "status": "ACTIVE",
     "verifyJwt": true
   },
@@ -212,5 +226,13 @@
     "loginTab": "GitHub sign-in to continue to Supabase",
     "browserId": "2",
     "tabId": "2"
+  },
+  "vercelConfiguration": {
+    "framework": "nextjs",
+    "nodeVersion": "22.x",
+    "serverlessRegion": "hnd1",
+    "publicEnvConfigured": true,
+    "logEndpointAccess": "403_scope",
+    "deploymentSubmitted": false
   }
 }

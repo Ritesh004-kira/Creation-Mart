@@ -3,6 +3,8 @@ import { creatorSchema } from '@/domain/contracts';
 import { serverSupabase } from '@/server/supabase';
 import { HttpError,errorResponse,sameOrigin } from '@/server/http/errors';
 import { readJsonBody } from '@/server/http/body';
+import { apiUser } from '@/server/auth/api-user';
+export async function GET(){const requestId=crypto.randomUUID();try{const {db,user}=await apiUser('creator');const {data,error}=await db.from('creator_profiles').select('*').eq('user_id',user.id).maybeSingle();if(error)throw new HttpError('DEPENDENCY_UNAVAILABLE',503,'Your profile could not be loaded.');if(!data)throw new HttpError('NOT_FOUND',404,'Your profile is unavailable.');return Response.json({data,requestId});}catch(e){return errorResponse(e,requestId);}}
 const schema=z.strictObject({input:creatorSchema,expectedVersion:z.number().int().positive()});
 export async function PATCH(request:Request){
   const requestId=crypto.randomUUID();

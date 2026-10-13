@@ -1,5 +1,17 @@
 # CreatorMatch checkpoints
 
+## OAuth callback handoff — 2026-10-13 15:32:20 UTC
+
+GitHub provider is enabled in actual Supabase Auth settings. The local Continue with GitHub action reaches the registered Creation-Mart OAuth app, with the project callback and the local app return URL intact. The selected in-app browser has no GitHub session and is at GitHub login. Tab 3 is shown and retained for human sign-in/MFA/consent. Full successful callback remains untested until that action.
+
+Vercel accepted the existing project's Next.js framework, Node 22, npm build/install commands, Tokyo region and five public-only production/preview environment values. No privileged key was configured. The build-log endpoint returned scope 403; configuration writes succeeded, so a full connector access failure is not inferred. No new app deployment was submitted. Hobby eligibility remains limited to a personal fictional hackathon prototype; any financial/commercial use is not established or authorized by this checkpoint.
+
+The prior source compiled and built successfully. Added trusted preview-origin handling, required GET routes and shortlist DELETE, an assertion/evidence editor with private attachment protection, generated actual database types, explicit demo flags on the twelve known seed creators, failed-upload removal and a bounded Edge request reader. Seventy unit tests passed; typecheck/lint passed through the evidence-editor changes. Latest upload cleanup edits and generated types still need full regression/build.
+
+Canonical claim_evidence_staleness migration 20261013152049 applied. Finalizer ACTIVE version 3, verify_jwt=true, import map explicit. Fifteen new actual-role checks passed: reservation caps, pending ceiling, signed upsert denial, overwrite denial, invalid/oversize media handling, confirmed cleanup, claim replay/protection/privacy/staleness, Edge byte limits, private/privileged denial and simultaneous selection with one winner. The next malformed-submission probe unexpectedly succeeded; identify its exact case and repair the database guard before release. Final-rights probes and latency sampling in that suite did not run. Fixture and cleanup records are in ignored work/security-probes.json; all unfinished pending fixture uploads were cleaned by the runner's finally block.
+
+No AWS roles/compute were provisioned, no billable resource is running. Local preview session 50456 remains available at localhost:3000. Remaining work includes the submission guard failure, complete route/browser/negative regressions, real successful OAuth callback, verified Vercel deployment/live journey, authorized scoped AWS IAM bootstrap and final handoff. Optional inference remains disabled. Per Master_Goal, pause for the required GitHub sign-in, then resume from this checkpoint.
+
 ## Preflight — 2026-10-13 08:47:52 UTC
 
 - Read Master_Goal and all five CM-2.0 specifications. Master controls the twelve-hour limit and explicit pause behavior.
