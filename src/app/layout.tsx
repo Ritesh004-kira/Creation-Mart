@@ -15,4 +15,3 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
     <footer className="footer"><div className="container">Creation Mart · Process is declared. File checks describe the bytes. Rights receipts compare declarations and references.</div></footer>
   </body></html>;
 }
-

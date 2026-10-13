@@ -11,15 +11,22 @@ export default {fetch:async(req:Request)=>{
   const ctx=context.data;
   let input:{assetId:string;operation?:string};
   try{const text=await req.text();if(new TextEncoder().encode(text).length>2048)throw new Error();input=JSON.parse(text);
-    if(!input||typeof input.assetId!=='string'||!/^[a-f0-9-]{36}$/i.test(input.assetId)||Object.keys(input).some(k=>!['assetId','operation'].includes(k)))throw new Error();
+    if(!input||typeof input.assetId!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(input.assetId)||(input.operation!==undefined&&typeof input.operation!=='string')||Object.keys(input).some(k=>!['assetId','operation'].includes(k)))throw new Error();
   }catch{return result({error:{code:'VALIDATION_FAILED',message:'Send an asset ID.',requestId}},400);}
   const {data:asset,error:lookupError}=await ctx.supabase.from('assets').select('*').eq('id',input.assetId).maybeSingle();
   if(lookupError)return result({error:{code:'DEPENDENCY_UNAVAILABLE',message:'The file record could not be loaded.',requestId}},503);
   if(!asset)return result({error:{code:'NOT_FOUND',message:'That file is unavailable.',requestId}},404);
-  if(input.operation==='read'){
+  if(input.operation==='read'||input.operation==='download'){
     if(asset.state!=='ready'||asset.object_deleted_at)return result({error:{code:'NOT_FOUND',message:'That file is not ready.',requestId}},404);
     const ttl=asset.purpose==='portfolio_preview'?120:60;
-    const {data,error}=await ctx.supabaseAdmin.storage.from(asset.bucket).createSignedUrl(asset.path,ttl);
+    if(input.operation==='download'){
+      if(ctx.authMode!=='user'||asset.purpose!=='submission')return result({error:{code:'NOT_FOUND',message:'Final file unavailable.',requestId}},404);
+      const {data:engagement}=await ctx.supabase.from('engagements').select('id,state').eq('id',asset.engagement_id).eq('state','accepted').maybeSingle();
+      if(!engagement)return result({error:{code:'NOT_FOUND',message:'Final file unavailable.',requestId}},404);
+      const {data:latest}=await ctx.supabase.from('submissions').select('asset_ids').eq('engagement_id',engagement.id).order('sequence',{ascending:false}).limit(1).maybeSingle();
+      if(!latest?.asset_ids.includes(asset.id))return result({error:{code:'NOT_FOUND',message:'This file is not the latest accepted delivery.',requestId}},404);
+    }
+    const {data,error}=await ctx.supabaseAdmin.storage.from(asset.bucket).createSignedUrl(asset.path,ttl,input.operation==='download'?{download:asset.id+'.'+asset.format}:undefined);
     if(error)return result({error:{code:'DEPENDENCY_UNAVAILABLE',message:'The file link could not be created.',requestId}},503);
     return result({data:{url:data.signedUrl,expiresIn:ttl},requestId});
   }

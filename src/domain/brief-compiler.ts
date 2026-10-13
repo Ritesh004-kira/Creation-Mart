@@ -45,4 +45,3 @@ export function applySuggestion(draft:Partial<BriefV1>,value:AiBriefPatchV1,acce
   const patch=aiPatchSchema.parse(value);
   return acceptedFields.includes('objectiveSuggestion')?{...draft,objective:patch.objectiveSuggestion}:{...draft};
 }
-

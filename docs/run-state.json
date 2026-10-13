@@ -2,9 +2,9 @@
   "baseline": "CM-2.0",
   "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
   "objective": "Build CreatorMatch end-to-end following System/Master_Goal.md.",
-  "checkpointAt": "2026-10-13 13:02:39 UTC",
-  "phase": "P0_core_verified_workflow_next",
-  "activeImplementationSeconds": 14022,
+  "checkpointAt": "2026-10-13 13:49:55 UTC",
+  "phase": "P1_local_workflow_verified_awaiting_oauth_login",
+  "activeImplementationSeconds": 16859,
   "activeImplementationLimitSeconds": 43200,
   "repository": "Ritesh004-kira/Creation-Mart",
   "repositoryVisibility": "public",
@@ -59,7 +59,13 @@
     "SQL-backed discovery, exact filters and fit breakdown",
     "SQL/TypeScript rights receipts",
     "Six-section persistent brief builder and published requirements",
-    "Persistent private shortlists and compare UI"
+    "Persistent private shortlists and compare UI",
+    "Actual application, selection and frozen snapshots",
+    "Ready-file submission mapping and immutable versions",
+    "Requirement-specific revision and latest acceptance",
+    "Participant-only accepted final download",
+    "Role-specific application and engagement dashboards",
+    "Original playable MP4, PCM audio, image and text demo assets"
   ],
   "testResults": [
     {
@@ -107,6 +113,11 @@
     {
       "suite": "live discovery",
       "passed": 5
+    },
+    {
+      "suite": "live workflow",
+      "passed": 6,
+      "scope": "actual application/v1/revision/v2/acceptance/private read"
     }
   ],
   "browserResults": [
@@ -131,6 +142,11 @@
     {
       "suite": "mobile filter recovery",
       "passed": 1
+    },
+    {
+      "suite": "two-role delivery UI",
+      "passed": 1,
+      "scope": "application/selection/v1/revision/v2/acceptance/actual download"
     }
   ],
   "migrations": [
@@ -143,9 +159,9 @@
       "name": "profile_version_guard"
     }
   ],
-  "blocker": null,
-  "requiredUserAction": null,
-  "nextTask": "Complete applications, atomic selection, submissions, revisions and acceptance; complete full seed, deployment and end-to-end gates",
+  "blocker": "GitHub OAuth provider disabled; Supabase dashboard requires GitHub login/MFA and CLI has no management token. User login/provider credential configuration is necessary.",
+  "requiredUserAction": "Sign in to the opened GitHub/Supabase dashboard tab, complete MFA, configure GitHub OAuth in the Creation-Mart Supabase project using the project callback, and explicitly resume. Never send secrets in chat.",
+  "nextTask": "Verify OAuth provider and callback settings; run remaining permission/concurrency/quotas and route tests; deploy and verify on existing Vercel project; configure scoped AWS IAM and optional inference only within cost gates",
   "pauseSource": "System/Master_Goal.md: Explicit user-requested pause policy",
   "productName": "Creation Mart",
   "vercelProjectId": "prj_qNFGM4QpWt5foIgAkpJ8eYI51rGy",
@@ -172,8 +188,29 @@
   "finalizer": {
     "id": "80233f6a-c990-4cd9-aa1a-a6a3bb4da302",
     "name": "finalize-asset",
-    "version": 1,
+    "version": 2,
     "status": "ACTIVE",
     "verifyJwt": true
+  },
+  "seedSummary": {
+    "creators": 12,
+    "items": 24,
+    "brands": 2,
+    "briefs": {
+      "lumaleaf": "64c17782-7d5d-49af-a0f3-21ed37fd6218",
+      "conflicting": "209781e0-fe3f-4bf7-a6da-2084b1d82dfd",
+      "orbitnote": "320876ee-2f8f-4d21-884c-c2261e7b1c23"
+    },
+    "credentialRows": 14,
+    "origin": "procedural_demo",
+    "checks": "actual Edge hash/header/dimensions"
+  },
+  "oauthSetup": {
+    "githubEnabled": false,
+    "supabaseCallback": "https://kfwmhbmkauiosobpqbdu.supabase.co/auth/v1/callback",
+    "applicationCallback": "https://creation-mart.vercel.app/auth/callback",
+    "loginTab": "GitHub sign-in to continue to Supabase",
+    "browserId": "2",
+    "tabId": "2"
   }
 }

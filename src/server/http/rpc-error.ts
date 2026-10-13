@@ -2,6 +2,8 @@ import { HttpError } from './errors';
 export function rpcError(error:{message:string;code?:string}):never {
   const text=error.message;
   const mapping:[string,string,number,string][]=[
+    ['RIGHTS_BLOCKED','RIGHTS_BLOCKED',409,'The requested usage is explicitly prohibited. It cannot be acknowledged away.'],
+    ['RIGHTS_REVIEW_REQUIRED','INVALID_TRANSITION',409,'Resolve the required usage declarations before continuing.'],
     ['IDEMPOTENCY_CONFLICT','VERSION_CONFLICT',409,'This action key was already used with different information.'],
     ['VERSION_CONFLICT','VERSION_CONFLICT',409,'This record changed. Reload its saved version before trying again.'],
     ['PUBLICATION_INCOMPLETE','VALIDATION_FAILED',400,'Complete the work, process and ready preview before publishing.'],
