@@ -12,7 +12,7 @@
         "Replace decorative glass and motion with canonical accessible states",
         "Replace global utility closure with clsx"
       ],
-      "validation": "typecheck and production build passed; browser check running"
+      "validation": "Typecheck, lint, production build and actual browser flows passed."
     }
   ],
   "sources": [

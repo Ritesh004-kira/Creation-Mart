@@ -2,21 +2,15 @@
   "baseline": "CM-2.0",
   "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
   "objective": "Build CreatorMatch end-to-end following System/Master_Goal.md.",
-  "checkpointAt": "2026-10-13 17:56:12 UTC",
-  "phase": "release_source_ready",
-  "activeImplementationSeconds": 27000,
   "activeImplementationLimitSeconds": 43200,
   "repository": "Ritesh004-kira/Creation-Mart",
   "repositoryVisibility": "public",
   "repositoryPushPermissionVerified": true,
   "localBranch": "implementation/creatormatch",
-  "remoteCommit": "39ed220fdb61d1595b1812d4d5f519947d18c13e",
   "supabaseProjectRef": "kfwmhbmkauiosobpqbdu",
   "supabaseOrganizationId": "laxzetvelrnddinfxosl",
   "supabasePlan": "free",
   "supabaseProjectState": "ACTIVE_HEALTHY",
-  "existingApplicationTables": 0,
-  "existingMigrations": 14,
   "awsAccountId": "797129634517",
   "awsPrincipalType": "root",
   "awsAccountPlan": "FREE",
@@ -24,10 +18,8 @@
   "awsCreditBalanceUsd": 100,
   "awsCreditExpiration": "2027-03-20T06:30:31.256Z",
   "awsServiceCoverageVerified": false,
-  "awsRegion": null,
   "host": "vercel_existing_requested",
   "vercelPlan": "hobby",
-  "vercelEligibilityVerified": false,
   "authorizedActions": [
     "coding",
     "selective licensed reuse",
@@ -40,15 +32,12 @@
   ],
   "purchasesPermitted": false,
   "awsGrossPlanningLimitUsd": 5,
-  "workerCount": 0,
   "workerExpiresAt": null,
   "createdExternalResources": [
     "14 Supabase canonical migrations and scoped fictional demo records",
     "Private Storage buckets and finalize-asset Edge v4",
     "Two run-scoped IAM roles, one profile and one dormant IAM user"
   ],
-  "deploymentUrl": null,
-  "deploymentStatus": "not_started",
   "aiEnabled": false,
   "implementedFeatures": [
     "Strict domain contracts",
@@ -106,52 +95,6 @@
       "vulnerabilities": 0
     }
   ],
-  "browserResults": [
-    {
-      "suite": "foundation",
-      "passed": 5,
-      "scope": "375/768/1440 home; creator save/reload/sign-out; brand editor denial"
-    },
-    {
-      "suite": "public foundation after CSS refinement",
-      "passed": 3,
-      "scope": "375/768/1440"
-    },
-    {
-      "suite": "portfolio full browser",
-      "passed": 1
-    },
-    {
-      "suite": "brief-to-shortlist browser",
-      "passed": 1
-    },
-    {
-      "suite": "mobile filter recovery",
-      "passed": 1
-    },
-    {
-      "suite": "two-role delivery UI",
-      "passed": 1,
-      "scope": "application/selection/v1/revision/v2/acceptance/actual download"
-    }
-  ],
-  "migrations": [
-    {
-      "version": "20261013093256",
-      "name": "identity_catalog"
-    },
-    {
-      "version": "20261013094129",
-      "name": "profile_version_guard"
-    },
-    {
-      "version": "20261013152049",
-      "name": "claim_evidence_staleness"
-    }
-  ],
-  "blocker": null,
-  "requiredUserAction": null,
-  "nextTask": "Deploy existing Vercel project; verify production OAuth and canonical full live workflow; final handoff.",
   "pauseSource": "System/Master_Goal.md: Explicit user-requested pause policy",
   "productName": "Creation Mart",
   "vercelProjectId": "prj_qNFGM4QpWt5foIgAkpJ8eYI51rGy",
@@ -163,12 +106,6 @@
   "localPreview": "http://localhost:3000",
   "liveServerSession": 50456,
   "credentialAccessLocation": "C:/Users/rites/.codex/secrets/creation-mart/c213484a-0c12-4cd6-a2a0-e4f67ae38db8.dpapi",
-  "remainingFeatures": [
-    "Verified production deployment",
-    "Production OAuth callback",
-    "Canonical full live rehearsal",
-    "Final documentation and cleanup records"
-  ],
   "finalizer": {
     "id": "80233f6a-c990-4cd9-aa1a-a6a3bb4da302",
     "name": "finalize-asset",
@@ -189,20 +126,102 @@
     "origin": "procedural_demo",
     "checks": "actual Edge hash/header/dimensions"
   },
+  "checkpointAt": "2026-10-13T18:14:40.032Z",
+  "activeImplementationSeconds": 28194,
+  "phase": "verified_complete_ready_for_handoff",
+  "blocker": null,
+  "requiredUserAction": null,
+  "nextTask": "All mandatory gates passed; final repository checkpoint and native completion.",
+  "existingApplicationTables": 14,
+  "existingMigrations": 14,
+  "remoteCommit": "528f05a7eb54e841c7c5d3f709126e612964a07c",
+  "deploymentUrl": "https://creation-mart.vercel.app",
+  "deploymentStatus": "READY",
+  "deploymentId": "dpl_GKFGFGTfYy82xWTY3bWZ3eYH3p47",
+  "deployedSourceCommit": "528f05a7eb54e841c7c5d3f709126e612964a07c",
+  "vercelEligibilityVerified": true,
+  "vercelEligibilityBasis": "Personal fictional non-commercial educational prototype; official Hobby/fair-use policy checked. No payments/real client fulfillment.",
+  "awsIamStatus": "configured_and_policy_simulated",
+  "awsRuntimeAuthentication": "not_tested_no_credentials_issued",
+  "awsRegion": "ap-south-1",
+  "workerCount": 0,
+  "remainingFeatures": [],
+  "migrations": [
+    "20261013093256_identity_catalog",
+    "20261013094129_profile_version_guard",
+    "20261013105048_portfolio_assets",
+    "20261013112518_portfolio_guard_fixes",
+    "20261013114531_briefs_marketplace",
+    "20261013123954_discovery_rights",
+    "20261013124535_discovery_access_fixes",
+    "20261013130107_marketplace_guards",
+    "20261013131042_engagement_workflow",
+    "20261013131316_workflow_security_fixes",
+    "20261013152049_claim_evidence_staleness",
+    "20261013154447_submission_asset_scope_guard",
+    "20261013174127_acceptance_asset_scope_guard",
+    "20261013174930_cancelled_upload_replay_guard"
+  ],
+  "actualCounts": {
+    "publicTables": 14,
+    "authUsers": 15,
+    "creatorProfiles": 12,
+    "brandProfiles": 2,
+    "portfolioItems": 35,
+    "briefs": 17,
+    "acceptedEngagements": 4,
+    "allocatedStorageBytes": 2452592
+  },
   "oauthSetup": {
     "githubEnabled": true,
     "supabaseCallback": "https://kfwmhbmkauiosobpqbdu.supabase.co/auth/v1/callback",
     "applicationCallback": "https://creation-mart.vercel.app/auth/callback",
-    "loginTab": "Local callback completed; human signed in at onboarding",
+    "status": "production_callback_verified",
+    "signedInOnboarding": "https://creation-mart.vercel.app/onboarding",
     "browserId": "2",
-    "tabId": "3"
+    "tabId": "5",
+    "humanRoleAssigned": false
   },
+  "browserResults": [
+    {
+      "suite": "production foundation and connected routes",
+      "passed": 14,
+      "widths": [
+        375,
+        768,
+        1440
+      ]
+    },
+    {
+      "suite": "canonical same-brief production GUI journey",
+      "passed": 1,
+      "scope": "Publication through exact MP4/PNG accepted private download"
+    },
+    {
+      "suite": "accepted-history/back/outsider production gates",
+      "passed": 1
+    },
+    {
+      "suite": "local passport/evidence GUI",
+      "passed": 1
+    },
+    {
+      "suite": "local six-section brief-to-shortlist GUI",
+      "passed": 1
+    },
+    {
+      "suite": "local application-to-v2-acceptance GUI",
+      "passed": 1
+    }
+  ],
   "vercelConfiguration": {
     "framework": "nextjs",
     "nodeVersion": "22.x",
     "serverlessRegion": "hnd1",
     "publicEnvConfigured": true,
     "logEndpointAccess": "403_scope",
-    "deploymentSubmitted": false
+    "deploymentSubmitted": true,
+    "publicProtection": "disabled_for_authorized_public_demo",
+    "providerReadyVerified": true
   }
 }

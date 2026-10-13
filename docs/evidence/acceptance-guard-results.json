@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "action": "accept_engagement",
+      "missingSubmissionDenied": true
+    },
+    {
+      "action": "request_revision",
+      "missingSubmissionDenied": true
+    },
+    {
+      "action": "accept_engagement",
+      "missingSubmissionDenied": true
+    },
+    {
+      "action": "request_revision",
+      "missingSubmissionDenied": true
+    },
+    {
+      "legacyWrongParentAcceptanceDenied": true
+    },
+    {
+      "clientBlockerWriteDenied": true
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "origin": "https://creation-mart.vercel.app",
+  "engagementId": "f135ea66-1187-4da1-a6cd-00fbd271bcb0",
+  "status": "passed",
+  "checks": [
+    "accepted history",
+    "back navigation",
+    "375/768/1440 fit",
+    "old delivery final download denied",
+    "second acceptance denied",
+    "anonymous denied",
+    "unrelated brand denied",
+    "unselected creator denied"
+  ]
+}

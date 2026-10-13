@@ -1,0 +1,106 @@
+{
+  "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
+  "status": "configured_and_policy_simulated",
+  "permissionChecks": [
+    {
+      "label": "Exact EC2 PassRole",
+      "action": "iam:PassRole",
+      "resource": "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Worker-c213484a",
+      "decision": "allowed"
+    },
+    {
+      "label": "Foreign role denied",
+      "action": "iam:PassRole",
+      "resource": "arn:aws:iam::797129634517:role/Unrelated",
+      "decision": "implicitDeny"
+    },
+    {
+      "label": "Wrong service denied",
+      "action": "iam:PassRole",
+      "resource": "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Worker-c213484a",
+      "decision": "implicitDeny"
+    },
+    {
+      "label": "Tagged cleanup permitted",
+      "action": "ec2:TerminateInstances",
+      "resource": "arn:aws:ec2:ap-south-1:797129634517:instance/i-0123456789abcdef0",
+      "decision": "allowed"
+    },
+    {
+      "label": "Untagged cleanup denied",
+      "action": "ec2:TerminateInstances",
+      "resource": "arn:aws:ec2:ap-south-1:797129634517:instance/i-0123456789abcdef0",
+      "decision": "implicitDeny"
+    },
+    {
+      "label": "Compute launch disabled",
+      "action": "ec2:RunInstances",
+      "resource": "arn:aws:ec2:ap-south-1:797129634517:instance/i-0123456789abcdef0",
+      "decision": "implicitDeny"
+    },
+    {
+      "label": "Operator IAM creation denied",
+      "action": "iam:CreateRole",
+      "resource": "arn:aws:iam::797129634517:role/Unrelated",
+      "decision": "implicitDeny"
+    },
+    {
+      "label": "Worker secret parameter denied",
+      "action": "ssm:GetParameter",
+      "resource": "arn:aws:ssm:ap-south-1:797129634517:parameter/test",
+      "decision": "explicitDeny"
+    },
+    {
+      "label": "Worker IAM admin denied",
+      "action": "iam:CreateRole",
+      "resource": "arn:aws:iam::797129634517:role/Unrelated",
+      "decision": "explicitDeny"
+    },
+    {
+      "label": "Worker data access denied",
+      "action": "s3:GetObject",
+      "resource": "arn:aws:s3:::unrelated-test/object",
+      "decision": "explicitDeny"
+    },
+    {
+      "label": "Worker SSM messaging permitted",
+      "action": "ssmmessages:CreateControlChannel",
+      "resource": "*",
+      "decision": "allowed"
+    }
+  ],
+  "identity": {
+    "operatorIdentityArn": "arn:aws:iam::797129634517:user/creation-mart/CreationMart-Operator-c213484a",
+    "operatorRoleArn": "arn:aws:iam::797129634517:role/creation-mart/CreationMart-Operator-c213484a",
+    "trust": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": "arn:aws:iam::797129634517:root"
+          },
+          "Action": [
+            "sts:AssumeRole",
+            "sts:SetSourceIdentity"
+          ],
+          "Condition": {
+            "StringEquals": {
+              "sts:SourceIdentity": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8"
+            },
+            "ArnEquals": {
+              "aws:PrincipalArn": "arn:aws:iam::797129634517:user/creation-mart/CreationMart-Operator-c213484a"
+            }
+          }
+        }
+      ]
+    },
+    "identityPolicyVerified": true,
+    "accessKeyCount": 0,
+    "identityAssumePermission": "allowed",
+    "liveOperatorSession": "not_tested_no_credentials_issued",
+    "computeCreated": false
+  },
+  "computeActivation": "disabled",
+  "noLiveOperatorSession": true
+}

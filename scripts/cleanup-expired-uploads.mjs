@@ -10,6 +10,6 @@ for(const record of loadCredentials()){
  const selected=data.filter(a=>a.upload_blocked_until?Date.parse(a.upload_blocked_until)<=Date.now()&&!a.object_deleted_at:protect&&Date.parse(a.created_at)>Date.now()-2*60*60*1000);
  for(const asset of selected)if(apply){const {error}=await db.functions.invoke('finalize-asset',{body:{assetId:asset.id,operation:'cleanup'}});assert(!error,'Scoped cleanup failed for '+asset.id);}
  summary.push({alias:record.name,eligible:selected.length,applied:apply});
- await db.auth.signOut();
+ await db.auth.signOut({scope:'local'});
 }
 console.log(JSON.stringify({scope:'only run-owned demo users; rejected uploads',summary}));
