@@ -8,13 +8,17 @@ export function SignInForm({returnTo}:{returnTo:string}) {
   async function password(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();setBusy(true);setError('');
     const values=new FormData(event.currentTarget);
-    const {error}=await db.auth.signInWithPassword({email:String(values.get('email')),password:String(values.get('password'))});
-    if(error){setError('The email or password was not accepted. Check your details and try again.');setBusy(false);}else window.location.assign(returnTo);
+    try{
+      const {error}=await db.auth.signInWithPassword({email:String(values.get('email')),password:String(values.get('password'))});
+      if(error){setError('The email or password was not accepted. Check your details and try again.');setBusy(false);}else window.location.assign(returnTo);
+    }catch{setError('Sign-in could not reach the authentication service. Please try again.');setBusy(false);}
   }
   async function github() {
     setBusy(true);setError('');
-    const {error}=await db.auth.signInWithOAuth({provider:'github',options:{redirectTo:window.location.origin+'/auth/callback?returnTo='+encodeURIComponent(returnTo)}});
-    if(error){setError('GitHub sign-in is unavailable. Try your provisioned demo account.');setBusy(false);}
+    try{
+      const {error}=await db.auth.signInWithOAuth({provider:'github',options:{redirectTo:window.location.origin+'/auth/callback?returnTo='+encodeURIComponent(returnTo)}});
+      if(error){setError('GitHub sign-in is unavailable. Try your provisioned demo account.');setBusy(false);}
+    }catch{setError('GitHub sign-in could not start. Please try again.');setBusy(false);}
   }
   return <div className="stack"><Button type="button" onClick={github} disabled={busy}>Continue with GitHub</Button>
     <form onSubmit={password}><h2>Have a demo account?</h2><p className="muted">Use your provisioned account credentials. Demo mode uses real authentication.</p>

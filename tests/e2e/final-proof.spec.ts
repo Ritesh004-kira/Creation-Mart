@@ -7,7 +7,7 @@ async function signIn(page:Page,name:string){const r=records.find((r:{name:strin
 test('accepted live history survives back navigation and rejects unrelated participants',async({browser,baseURL})=>{
  test.setTimeout(120000);const owner=await browser.newContext(),outside=await browser.newContext(),visitor=await browser.newContext(),brand=await owner.newPage(),stranger=await outside.newPage(),path='/engagements/'+journey.engagementId,api='/api/v1'+path;
  try{
-  await signIn(brand,'lumaleaf');const response=await brand.request.get(api);expect(response.status()).toBe(200);const data=(await response.json()).data;expect(data.engagement.state).toBe('accepted');expect(data.submissions.map((s:{sequence:number})=>s.sequence)).toEqual([1,2]);const latest=data.submissions[1],old=data.submissions[0];expect(latest.asset_ids.length).toBe(2);
+  await signIn(brand,journey.brandAlias??'lumaleaf');const response=await brand.request.get(api);expect(response.status()).toBe(200);const data=(await response.json()).data;expect(data.engagement.state).toBe('accepted');expect(data.submissions.map((s:{sequence:number})=>s.sequence)).toEqual([1,2]);const latest=data.submissions[1],old=data.submissions[0];expect(latest.asset_ids.length).toBe(2);
   await brand.goto(path);await expect(brand.getByText('Accepted',{exact:true})).toBeVisible();await brand.getByRole('link',{name:'Original brief',exact:true}).click();await expect(brand).toHaveURL('/briefs/'+journey.briefId);await brand.goBack();await expect(brand.getByText('Accepted',{exact:true})).toBeVisible();
   for(const width of [375,768,1440]){await brand.setViewportSize({width,height:900});await brand.keyboard.press('Control+Home');expect(await brand.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await brand.screenshot({path:'docs/evidence/live-accepted-'+width+'.png'});}
   const oldLink=await brand.request.post('/api/v1/assets/'+old.asset_ids[0]+'/read-url?download=true');expect(oldLink.status()).toBe(404);
@@ -17,3 +17,4 @@ test('accepted live history survives back navigation and rejects unrelated parti
   writeFileSync('docs/evidence/live-final-authorization.json',JSON.stringify({origin:new URL(baseURL!).origin,engagementId:journey.engagementId,status:'passed',checks:['accepted history','back navigation','375/768/1440 fit','old delivery final download denied','second acceptance denied','anonymous denied','unrelated brand denied','unselected creator denied']},null,2));
  }finally{await owner.close();await outside.close();await visitor.close();}
 });
+

@@ -14,7 +14,7 @@ for(const width of [375,768,1440])test('public foundation renders at '+width+'px
   await page.setViewportSize({width,height:900});
   const failures:string[]=[];page.on('pageerror',e=>failures.push(e.message));
   await page.goto('/');
-  await expect(page.getByRole('heading',{name:'Find the creator. Understand the craft.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Create Shared Memorable Work'})).toBeVisible();
   await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:'Skip to content'})).toBeFocused();
   await page.keyboard.press('Enter');await expect(page.locator('#main')).toBeFocused();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);

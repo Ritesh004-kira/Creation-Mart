@@ -39,6 +39,7 @@
   "exclude": [
     "node_modules",
     "work",
-    "supabase/functions"
+    "supabase/functions",
+    ".design-reference"
   ]
 }

@@ -1,0 +1,166 @@
+
+
+@theme {
+  /* Base — derived from the hero film: warm near-black, olive cast */
+  --color-bg: #0b0c09;
+  --color-surface: #14160f;
+  --color-surface-2: #1b1e15;
+  --color-line: #2b2f24;
+
+  /* Ink — warm cream like the film's practical lights */
+  --color-ink: #f2efe6;
+  --color-mut: #a9a69a;
+
+  /* Accents from the logo mark */
+  --color-ember: #fc6e1c;
+  --color-flare: #fc114c;
+  --color-pulse: #f303b1;
+  --color-violet: #8501fc;
+  --color-navy: #001140;
+
+  /* Accents from the film */
+  --color-amber: #e9a85f;
+  --color-moss: #5f7052;
+  --color-pine: #1c352e;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  --color-brand-flame: #fc114c;
+  --color-brand-ember: #fc6e1c;
+  --color-brand-pulse: #f303b1;
+  --color-fevo-dark: #0a0a0a;
+  --color-fevo-gray: #f5f5f7;
+  --color-fevo-border: #e2e2e5;
+
+  --animate-bounce-slow: bounceSlow 1.8s ease-in-out infinite;
+  --animate-scroll-vertical: scrollVertical 24s linear infinite;
+  --animate-scroll-vertical-reverse: scrollVerticalRev 24s linear infinite;
+
+  @keyframes bounceSlow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(12px);
+    }
+  }
+
+  @keyframes scrollVertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  @keyframes scrollVerticalRev {
+    from {
+      transform: translateY(-50%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+}
+
+.landing { background-color: #000; color: #fff; }
+
+/* FEVO pill video clip */
+.fevo-pill-video {
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+/* Subtle glass pill */
+.fevo-pill-btn {
+  border-radius: 9999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fevo-pill-btn:hover {
+  transform: scale(1.04);
+}
+
+::selection {
+  background: var(--color-flare);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Brand gradient — logo mark stops: orange → red → magenta → violet */
+.text-brand-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-ember) 0%,
+    var(--color-flare) 34%,
+    var(--color-pulse) 66%,
+    var(--color-violet) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-brand-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-ember) 0%,
+    var(--color-flare) 34%,
+    var(--color-pulse) 66%,
+    var(--color-violet) 100%
+  );
+}
+
+.bg-brand-gradient-soft {
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--color-ember) 16%, transparent),
+    color-mix(in srgb, var(--color-flare) 14%, transparent) 34%,
+    color-mix(in srgb, var(--color-pulse) 12%, transparent) 66%,
+    color-mix(in srgb, var(--color-violet) 16%, transparent)
+  );
+}
+
+/* Edge fade used over the hero video */
+.hero-scrim {
+  background:
+    linear-gradient(to top, var(--color-bg) 4%, transparent 55%),
+    linear-gradient(to right, color-mix(in srgb, var(--color-bg) 88%, transparent), transparent 60%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-bg) 72%, transparent), transparent 30%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .motion-safe-only {
+    animation: none !important;
+    transition: none !important;
+  }
+}

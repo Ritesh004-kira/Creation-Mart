@@ -26,3 +26,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+# Supplied design archive and Inter
+
+Landing layouts, icons, films, imagery, and branding are adapted from the user's supplied UI.zip. Example imagery is labeled as illustrative and is not presented as a real creator's independently verified identity or work. Published creator previews use the actual authorized database records.
+
+Inter is Copyright (c) 2016 The Inter Project Authors and licensed under SIL Open Font License 1.1. The unmodified font from the supplied archive and the complete license are distributed in public/design/inter-latin.woff2 and public/design/INTER-LICENSE.txt. Official source: https://github.com/rsms/inter.
+

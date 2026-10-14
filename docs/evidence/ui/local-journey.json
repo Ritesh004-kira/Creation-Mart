@@ -1,0 +1,20 @@
+{
+  "fixture": {
+    "baseURL": "http://localhost:3000",
+    "workTitle": "Release film 1791950890615",
+    "title": "Release launch 1791950890615",
+    "creatorAlias": "ui-creator",
+    "brandAlias": "ui-brand",
+    "portfolioItemId": "2608707a-17a7-4184-9e64-ebf4d0e5d0eb",
+    "briefId": "98cedbc9-555a-4660-b54b-f53a098d96f0",
+    "engagementId": "d6f60eba-1ccc-48e6-a090-d9b7bd117efa"
+  },
+  "progress": [
+    "creator publication persisted",
+    "brand six-section brief published",
+    "discovery and saved shortlist persisted",
+    "creator applied and brand selected",
+    "video and image v1 submitted; referenced revision persisted",
+    "latest acceptance and exact private MP4/PNG downloads verified"
+  ]
+}

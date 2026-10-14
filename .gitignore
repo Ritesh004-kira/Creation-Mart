@@ -10,3 +10,5 @@ work/
 *.tsbuildinfo
 supabase/.temp/
 .openai/*credential*
+
+.design-reference/
