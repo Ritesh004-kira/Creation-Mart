@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-const sections = [['/', 'Home'], ['/creators', 'Browse creators'], ['/#brief-copilot', 'Brief Copilot'], ['/#fit-engine', 'Explainable Fit'], ['/#proof', 'Production Passports'], ['/#how-it-works', 'How It Works'], ['/#rights', 'Rights Receipts'], ['/briefs', 'Production Briefs']];
+const sections = [['/', 'Home'], ['/creators', 'Browse creators'], ['/#brief-copilot', 'Brief Copilot'], ['/#fit-engine', 'Explainable Fit'], ['/#proof', 'Production Passports'], ['/#how-it-works', 'How It Works'], ['/#rights', 'Rights Receipts'], ['/briefs', 'Production Briefs'], ['/project-overview', 'Project overview']];
 
 export function Navbar({signedIn,role}:{signedIn:boolean;role?:'creator'|'brand'|null}) {
   const pathname=usePathname();
