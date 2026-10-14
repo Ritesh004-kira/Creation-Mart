@@ -1,0 +1,10 @@
+alter function public.save_contact(jsonb,text,integer) set schema private;
+alter function public.brief_customer(uuid) set schema private;
+alter function public.begin_ai_request(text,uuid,text) set schema private;
+alter function public.finish_ai_request(uuid,jsonb,boolean) set schema private;
+create function public.save_contact(p_input jsonb,p_sharing text,p_expected_version integer) returns jsonb language sql security invoker set search_path='' as $$select private.save_contact(p_input,p_sharing,p_expected_version)$$;
+create function public.brief_customer(p_brief uuid) returns jsonb language sql security invoker set search_path='' as $$select private.brief_customer(p_brief)$$;
+create function public.begin_ai_request(p_kind text,p_key uuid,p_hash text) returns jsonb language sql security invoker set search_path='' as $$select private.begin_ai_request(p_kind,p_key,p_hash)$$;
+create function public.finish_ai_request(p_id uuid,p_result jsonb,p_success boolean) returns jsonb language sql security invoker set search_path='' as $$select private.finish_ai_request(p_id,p_result,p_success)$$;
+revoke all on function public.save_contact(jsonb,text,integer),public.brief_customer(uuid),public.begin_ai_request(text,uuid,text),public.finish_ai_request(uuid,jsonb,boolean) from public,anon;
+grant execute on function public.save_contact(jsonb,text,integer),public.brief_customer(uuid),public.begin_ai_request(text,uuid,text),public.finish_ai_request(uuid,jsonb,boolean) to authenticated;

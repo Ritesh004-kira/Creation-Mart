@@ -35,7 +35,7 @@ export function BriefCopilot() {
                 <div>
                   <h3 className="text-base font-bold text-black">Turn ideas into briefs</h3>
                   <p className="mt-1 text-sm leading-relaxed text-neutral-600">
-                    Describe your campaign in plain language. Template assistance starts your brief and shows the questions still to answer.
+                    Describe your campaign in plain language. AI generates a tailored draft, refines your direction and checks the details still to answer.
                   </p>
                 </div>
               </div>

@@ -200,3 +200,5 @@ button[aria-busy=true]:not(:has(.spinner))::before { content: ''; width: 16px; h
   .progress-badge { right: 16px; bottom: 16px; }
 }
 @media(prefers-reduced-motion:reduce) { .page-enter, .brief-step-panel { animation: none; } .spinner,button[aria-busy=true]::before { animation: none!important; border-right-color: currentColor; border-style: dotted; } .progress-track { animation: none; } }
+
+.contact-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}.contact-summary{margin:0;display:grid;gap:16px}.contact-summary>div{display:grid;grid-template-columns:minmax(110px,180px) minmax(0,1fr);gap:16px}.contact-summary dt{font-weight:700;text-transform:capitalize}.contact-summary dd{margin:0;overflow-wrap:anywhere}.ai-assistant{border-color:#f0c8d2}.ai-assistant pre{max-height:420px;overflow:auto}.ai-assistant .notice{overflow-wrap:anywhere}@media(max-width:600px){.contact-fields{grid-template-columns:1fr}.contact-summary>div{grid-template-columns:1fr;gap:4px}}

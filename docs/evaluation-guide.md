@@ -190,7 +190,7 @@ npm run build
 
 ## Honest implementation boundaries
 
-- Brief Copilot is deterministic template assistance. Optional model inference is disabled; no live LLM generation, paid model API or AWS worker is claimed.
+- Brief Copilot and profile optimization now use real Vercel AI Gateway calls with explicit user review. AWS workers remain inactive. See the implementation update below.
 - Rights receipts compare declarations and references; they do not grant legal clearance. File checks do not verify identity, authorship, licensing or malware safety.
 - Fictional demo creators and procedural media are explicitly labeled. The initial seed records 12 creators, 24 media items, two brands and three briefs; later tests add scoped fixtures, so these are seed counts rather than live totals.
 - 3D is metadata and poster support; the app does not render 3D models. Media duration/content reviews can require brand review rather than automated byte-level validation.
@@ -211,3 +211,23 @@ npm run build
 - [Cleanup and resource scope](resource-cleanup.md)
 
 The public documentation catalog is generated from `src/content/project-overview.json`. The website renders it as ordinary server-generated HTML, with matching public JSON and plain text for machine readers.
+
+## Contact and AI implementation update
+
+The four requested additions are implemented in the current source: complete private contact editing/clearing, customer profile and relationship-controlled contact views, real AI brief generation/refinement/validation, and real AI creator profile optimization.
+
+### Private contact management and customer visibility
+
+Creators and brands can add, edit, reload and clear complete contact records, including names, emails, phones, preferred channel, professional links and postal addresses. The records are separate from public discovery. Database RLS restricts access to the owner, selected collaborators, or explicitly permitted current applicants; withdrawal, rejection and stale revision remove applicant access. Creators view full customer company context on relevant briefs and only authorized contact fields. Brands can view selected creator contact information in engagements.
+
+### AI creator profile optimization
+
+A real Gateway model analyzes the creator’s profile and actual portfolio descriptions, explains strengths and prioritized gaps, assigns a clearly labeled editorial score, and rewrites the headline and bio without inventing credentials or client results. The creator explicitly consents, reviews each suggestion, applies chosen text to an unsaved draft and saves through existing version checks. Contact fields and private evidence files are excluded from model inputs.
+
+Brief AI: A persistent six-section brief builder now calls a real language model through Vercel AI Gateway to generate suggested production drafts, refine creative direction and analyze conflicts and missing answers. Structured outputs are schema-checked and catalog-validated, then evaluated by deterministic publication rules. Existing money, schedule, rights choices and private reference links are preserved. Suggestions require explicit review and apply before guarded save/publication. Stable requirement IDs connect the brief to delivery mapping and revisions.
+
+Model configuration: pinned AI SDK/Gateway dependencies; default model openai/gpt-4.1-mini, discovered in the live Gateway catalog with structured-output support. Production uses Vercel OIDC automatically; local development requires a server-only AI_GATEWAY_API_KEY. Configure AI_GATEWAY_MODEL to override the default. No key is committed or exposed to the browser.
+
+Limits: one active request per account, 20 requests per hour, 100 per day and a shared 1000-request daily ceiling; 4200 output-token cap; bounded model timeout; no contact or evidence file inputs. Request keys prevent concurrent/repeated paid requests. AI results are untrusted private drafts and never grant authorization, rights or verification.
+
+Run node scripts/test-contacts-ai-security.mjs for live database permission checks; real deployed-model and HTTP workflow checks are in scripts/test-contact-ai-production.mjs. See docs/contact-ai-release.md for current deployment and verification results.

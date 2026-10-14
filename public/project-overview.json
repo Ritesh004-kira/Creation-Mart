@@ -46,12 +46,15 @@
     {
       "id": "brief-copilot",
       "title": "U4 · Executable Brief Copilot",
-      "description": "A persistent six-section brief builder turns a rough objective into editable production requirements covering outputs, creative direction, workflow, rights, budget and deadline. Deterministic template assistance identifies missing fields and conflicting constraints, reports readiness, and preserves user-controlled edits. Publication compiles stable requirement IDs for quantity, format, dimensions, duration, content and rights. These requirements are reused for delivery mapping and specific revision requests.",
+      "description": "A persistent six-section brief builder now calls a real language model through Vercel AI Gateway to generate suggested production drafts, refine creative direction and analyze conflicts and missing answers. Structured outputs are schema-checked and catalog-validated, then evaluated by deterministic publication rules. Existing money, schedule, rights choices and private reference links are preserved. Suggestions require explicit review and apply before guarded save/publication. Stable requirement IDs connect the brief to delivery mapping and revisions.",
       "sources": [
         "src/domain/brief-compiler.ts",
         "src/app/briefs/[id]/edit/brief-builder.tsx",
         "src/app/api/v1/brief-assist/route.ts",
-        "supabase/migrations/20261013114531_briefs_marketplace.sql"
+        "supabase/migrations/20261013114531_briefs_marketplace.sql",
+        "src/server/ai/assistance.ts",
+        "src/domain/ai-assistance.ts",
+        "src/components/briefs/brief-assistant.tsx"
       ],
       "route": "/briefs/new"
     }
@@ -125,6 +128,26 @@
         "supabase/migrations/20261013131316_workflow_security_fixes.sql",
         "supabase/migrations/20261013174930_cancelled_upload_replay_guard.sql"
       ]
+    },
+    {
+      "title": "Private contact management and customer visibility",
+      "description": "Creators and brands can add, edit, reload and clear complete contact records, including names, emails, phones, preferred channel, professional links and postal addresses. The records are separate from public discovery. Database RLS restricts access to the owner, selected collaborators, or explicitly permitted current applicants; withdrawal, rejection and stale revision remove applicant access. Creators view full customer company context on relevant briefs and only authorized contact fields. Brands can view selected creator contact information in engagements.",
+      "sources": [
+        "src/domain/contact.ts",
+        "src/components/contact/contact-form.tsx",
+        "src/components/contact/customer-card.tsx",
+        "src/app/api/v1/me/contact/route.ts",
+        "supabase/migrations/20261014064843_private_contacts_and_ai_jobs.sql"
+      ]
+    },
+    {
+      "title": "AI creator profile optimization",
+      "description": "A real Gateway model analyzes the creator’s profile and actual portfolio descriptions, explains strengths and prioritized gaps, assigns a clearly labeled editorial score, and rewrites the headline and bio without inventing credentials or client results. The creator explicitly consents, reviews each suggestion, applies chosen text to an unsaved draft and saves through existing version checks. Contact fields and private evidence files are excluded from model inputs.",
+      "sources": [
+        "src/components/creator/profile-optimizer.tsx",
+        "src/app/api/v1/me/creator/optimize/route.ts",
+        "src/server/ai/assistance.ts"
+      ]
     }
   ],
   "journey": [
@@ -172,6 +195,12 @@
       "technology": "Existing Vercel project, Node 22",
       "responsibility": "Production build, server-rendered web app and HTTP route handlers at the canonical domain.",
       "source": "vercel.json"
+    },
+    {
+      "layer": "AI generation and request controls",
+      "technology": "AI SDK 7, Vercel AI Gateway, structured Zod output, production OIDC",
+      "responsibility": "Real brief/profile model calls; bounded output and timeouts; owner-private results; request-key replay protection; single active request per account; hourly/daily limits; explicit user review.",
+      "source": "src/server/ai"
     }
   ],
   "dataModel": "accounts links Auth identity to an immutable role. creator_profiles and brand_profiles store role-specific identity. portfolio_items owns assets and claim_signals. briefs owns its requirements, applications and shortlists. Winning application selection creates an engagement with frozen snapshots. submissions stores immutable delivery versions; workflow_events records transitions. catalog_terms supports shared facets and model references; idempotency_keys protects repeat mutations.",
@@ -235,6 +264,11 @@
       "path": "/llms.txt and /project-overview.json",
       "access": "Public",
       "purpose": "Plain-text and machine-readable versions of this documentation."
+    },
+    {
+      "path": "/account/contact",
+      "access": "Authenticated owner",
+      "purpose": "Complete contact editing, clearing and sharing controls."
     }
   ],
   "apiGroups": [
@@ -245,16 +279,19 @@
     "/api/v1/brief-assist and /brief-assist/:id: template assistance; /briefs and /briefs/:id/publish: structured briefs.",
     "/api/v1/briefs/:id/shortlist and /shortlist/:creatorId: persistent candidate selection.",
     "/api/v1/briefs/:id/applications, /applications/:id/withdraw and /applications/:id/select: application lifecycle.",
-    "/api/v1/engagements/:id/submissions, /request-revision and /accept: guarded delivery transitions."
+    "/api/v1/engagements/:id/submissions, /request-revision and /accept: guarded delivery transitions.",
+    "/api/v1/me/contact: owner-only contact editing/clearing; /briefs/:id/customer and /engagements/:id/contact: relationship-controlled customer and collaborator views.",
+    "/api/v1/me/creator/optimize: real AI profile analysis and copy suggestions."
   ],
   "verification": [
     "Historical baseline evidence: docs/verification.md records 70 unit cases and hosted identity, discovery, rights parity, security, acceptance and signed-upload replay probes; the canonical two-role journey reached accepted exact-byte private downloads.",
     "October 14 implementation review: docs/implementation-review-2026-10-14.md records new email/account/UI checks and explicit gaps in later local full-journey retries. Historical evidence is not a claim that every current user path was retested.",
     "Before this documentation update, the synchronized main source passed TypeScript, ESLint and an optimized production build. This documentation release is checked with build/lint/unit commands and public URL checks as recorded in docs/evaluation-release.md.",
-    "Tests and scripts are inspectable in tests/unit, tests/e2e and scripts/test-*.mjs. Browser screenshots and workflow evidence are in docs/evidence. docs/capability-ledger.md and docs/requirements-checklist.md map baseline requirements to evidence."
+    "Tests and scripts are inspectable in tests/unit, tests/e2e and scripts/test-*.mjs. Browser screenshots and workflow evidence are in docs/evidence. docs/capability-ledger.md and docs/requirements-checklist.md map baseline requirements to evidence.",
+    "The contact and AI implementation release adds 16 live Supabase permission/concurrency/request-guard checks and 73 unit cases. Actual production model-call and browser results are recorded in docs/contact-ai-release.md."
   ],
   "limitations": [
-    "Brief Copilot is deterministic template assistance. Optional model inference is disabled; no live LLM generation, paid model API or AWS worker is claimed.",
+    "AI generation uses Vercel AI Gateway with server-only credentials or deployment OIDC. Availability depends on the owning Vercel team’s model access and credits. The app returns explicit provider errors rather than substituting a template result. Deterministic checks remain authoritative for publication and acceptance.",
     "Rights receipts compare declarations and references; they do not grant legal clearance. File checks do not verify identity, authorship, licensing or malware safety.",
     "Fictional demo creators and procedural media are explicitly labeled. The initial seed records 12 creators, 24 media items, two brands and three briefs; later tests add scoped fixtures, so these are seed counts rather than live totals.",
     "3D is metadata and poster support; the app does not render 3D models. Media duration/content reviews can require brand review rather than automated byte-level validation.",

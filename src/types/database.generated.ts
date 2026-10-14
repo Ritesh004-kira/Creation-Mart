@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_contacts: {
+        Row: {
+          payload: Json
+          sharing: string
+          updated_at: string
+          user_id: string
+          version: number
+        }
+        Insert: {
+          payload?: Json
+          sharing?: string
+          updated_at?: string
+          user_id: string
+          version?: number
+        }
+        Update: {
+          payload?: Json
+          sharing?: string
+          updated_at?: string
+          user_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "account_contacts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       accounts: {
         Row: {
           created_at: string
@@ -40,6 +72,50 @@ export type Database = {
           version?: number
         }
         Relationships: []
+      }
+      ai_requests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          kind: string
+          owner_id: string
+          request_hash: string
+          request_key: string
+          result: Json | null
+          status: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          owner_id: string
+          request_hash: string
+          request_key: string
+          result?: Json | null
+          status?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          owner_id?: string
+          request_hash?: string
+          request_key?: string
+          result?: Json | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_requests_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       applications: {
         Row: {
@@ -417,6 +493,188 @@ export type Database = {
           },
         ]
       }
+      conversation_messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string
+          id: number
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string
+          id?: never
+          sender_id: string
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: never
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_reads: {
+        Row: {
+          archived: boolean
+          conversation_id: string
+          last_read_message: number
+          user_id: string
+        }
+        Insert: {
+          archived?: boolean
+          conversation_id: string
+          last_read_message?: number
+          user_id: string
+        }
+        Update: {
+          archived?: boolean
+          conversation_id?: string
+          last_read_message?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_reads_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_reads_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          brand_id: string
+          created_at: string
+          creator_id: string
+          id: string
+          last_message_at: string
+        }
+        Insert: {
+          brand_id: string
+          created_at?: string
+          creator_id: string
+          id?: string
+          last_message_at?: string
+        }
+        Update: {
+          brand_id?: string
+          created_at?: string
+          creator_id?: string
+          id?: string
+          last_message_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brand_profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "conversations_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      creator_brief_drafts: {
+        Row: {
+          body: string
+          creator_id: string
+          id: string
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          body: string
+          creator_id: string
+          id?: string
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          body?: string
+          creator_id?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_brief_drafts_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      creator_favorites: {
+        Row: {
+          brand_id: string
+          created_at: string
+          creator_id: string
+        }
+        Insert: {
+          brand_id: string
+          created_at?: string
+          creator_id: string
+        }
+        Update: {
+          brand_id?: string
+          created_at?: string
+          creator_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_favorites_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brand_profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "creator_favorites_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       creator_profiles: {
         Row: {
           aspect_ratios: string[]
@@ -520,6 +778,61 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_reviews: {
+        Row: {
+          body: string
+          brand_id: string
+          created_at: string
+          creator_id: string
+          engagement_id: string
+          rating: number
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          body: string
+          brand_id: string
+          created_at?: string
+          creator_id: string
+          engagement_id: string
+          rating: number
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          body?: string
+          brand_id?: string
+          created_at?: string
+          creator_id?: string
+          engagement_id?: string
+          rating?: number
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_reviews_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brand_profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "creator_reviews_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "creator_reviews_engagement_id_fkey"
+            columns: ["engagement_id"]
+            isOneToOne: true
+            referencedRelation: "engagements"
             referencedColumns: ["id"]
           },
         ]
@@ -741,6 +1054,50 @@ export type Database = {
           },
         ]
       }
+      profile_details: {
+        Row: {
+          description: string
+          email: string
+          phone: string
+          publish_contact: boolean
+          publish_profile: boolean
+          updated_at: string
+          user_id: string
+          version: number
+          website: string
+        }
+        Insert: {
+          description?: string
+          email?: string
+          phone?: string
+          publish_contact?: boolean
+          publish_profile?: boolean
+          updated_at?: string
+          user_id: string
+          version?: number
+          website?: string
+        }
+        Update: {
+          description?: string
+          email?: string
+          phone?: string
+          publish_contact?: boolean
+          publish_profile?: boolean
+          updated_at?: string
+          user_id?: string
+          version?: number
+          website?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_details_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shortlists: {
         Row: {
           brand_id: string
@@ -920,6 +1277,13 @@ export type Database = {
         Args: { p_id: string; p_input: Json; p_key: string }
         Returns: Json
       }
+      begin_ai_request: {
+        Args: { p_hash: string; p_key: string; p_kind: string }
+        Returns: Json
+      }
+      brief_customer: { Args: { p_brief: string }; Returns: Json }
+      community_profile: { Args: { p_user: string }; Returns: Json }
+      conversation_inbox: { Args: never; Returns: Json }
       create_application: {
         Args: { p_brief: string; p_input: Json; p_key: string }
         Returns: Json
@@ -945,6 +1309,14 @@ export type Database = {
           p_pipeline?: Json
           p_request: Json
         }
+        Returns: Json
+      }
+      favorite_creator: {
+        Args: { p_creator: string; p_key: string; p_saved: boolean }
+        Returns: Json
+      }
+      finish_ai_request: {
+        Args: { p_id: string; p_result: Json; p_success: boolean }
         Returns: Json
       }
       onboard_account: {
@@ -1014,12 +1386,40 @@ export type Database = {
         }
         Returns: Json
       }
+      save_contact: {
+        Args: { p_expected_version: number; p_input: Json; p_sharing: string }
+        Returns: Json
+      }
       save_creator: {
         Args: { p_expected_version: number; p_input: Json }
         Returns: Json
       }
+      save_creator_brief_draft: {
+        Args: {
+          p_body: string
+          p_expected_version: number
+          p_id: string
+          p_key: string
+          p_title: string
+        }
+        Returns: Json
+      }
+      save_creator_review: {
+        Args: {
+          p_body: string
+          p_engagement: string
+          p_expected_version: number
+          p_key: string
+          p_rating: number
+        }
+        Returns: Json
+      }
       save_portfolio_item: {
         Args: { p_expected_version: number; p_id: string; p_input: Json }
+        Returns: Json
+      }
+      save_profile_details: {
+        Args: { p_expected_version: number; p_input: Json }
         Returns: Json
       }
       search_creators: {
@@ -1041,6 +1441,18 @@ export type Database = {
         }
         Returns: Json
       }
+      send_conversation_message: {
+        Args: { p_body: string; p_conversation: string; p_key: string }
+        Returns: Json
+      }
+      set_conversation_state: {
+        Args: {
+          p_archived: boolean
+          p_conversation: string
+          p_last_read: number
+        }
+        Returns: Json
+      }
       shortlist_mutation: {
         Args: {
           p_brief: string
@@ -1048,6 +1460,10 @@ export type Database = {
           p_key: string
           p_remove: boolean
         }
+        Returns: Json
+      }
+      start_conversation: {
+        Args: { p_key: string; p_recipient: string }
         Returns: Json
       }
       submit_delivery: {
@@ -1190,4 +1606,3 @@ export const Constants = {
     Enums: {},
   },
 } as const
-
