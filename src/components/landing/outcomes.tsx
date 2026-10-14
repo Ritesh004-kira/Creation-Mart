@@ -3,9 +3,9 @@
 export function Outcomes() {
   return (
     <section id="outcomes" className="relative bg-[#fbfbfb] text-black py-24 sm:py-32 border-t border-neutral-200">
-      <div className="mx-auto max-w-7xl px-6 sm:px-12">
+      <div className="section-container mx-auto max-w-7xl px-6 sm:px-12">
         {/* Header with right link */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div data-reveal className="section-heading flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500 mb-3">
               TRANSPARENT OUTCOMES
@@ -30,7 +30,7 @@ export function Outcomes() {
         </div>
 
         {/* 3 Pastel Outcome Cards */}
-        <div className="grid gap-6 md:grid-cols-3">
+        <div data-reveal className="outcome-cards grid gap-6 lg:grid-cols-3">
           {/* Card 1: Fit dimensions (6) */}
           <div className="flex items-center gap-6 rounded-3xl border border-[#a7f3d0] bg-[#ecfdf5] p-7 sm:p-8 shadow-sm">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#d1fae5] text-[#059669]">

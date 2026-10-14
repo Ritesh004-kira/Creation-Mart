@@ -20,7 +20,7 @@ export function CtaBanner() {
         className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-[550px] rounded-full bg-red-600/10 blur-[120px]"
       />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 sm:px-12 text-center">
+      <div data-reveal className="section-container relative z-10 mx-auto max-w-4xl px-6 sm:px-12 text-center">
         <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-neutral-400 mb-5">
           READY TO GET STARTED?
         </p>
@@ -33,10 +33,10 @@ export function CtaBanner() {
           Bring a clear brief and a creative process. Build your next project together.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <div className="landing-actions mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
             href="/briefs/new"
-            className="rounded-full bg-gradient-to-r from-[#ff4155] to-[#fc114c] px-9 py-4 text-xs font-bold uppercase tracking-wider text-white shadow-xl shadow-red-500/30 transition-all hover:brightness-110 hover:scale-105 active:scale-95"
+            className="landing-action landing-action-primary rounded-full bg-gradient-to-r from-[#ff4155] to-[#fc114c] px-9 py-4 text-xs font-bold uppercase tracking-wider text-white shadow-xl shadow-red-500/30"
           >
             GET STARTED
           </a>

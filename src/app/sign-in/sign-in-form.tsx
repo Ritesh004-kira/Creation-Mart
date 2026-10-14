@@ -52,9 +52,9 @@ export function SignInForm({returnTo,initialMode='signin'}:{returnTo:string;init
       <div className="field"><label htmlFor="email">Email</label><input id="email" name="email" type="email" required maxLength={254} autoComplete="email" autoCapitalize="none" spellCheck={false}/></div>
       {mode!=='recovery'&&<><div className="field"><div className="password-label"><label htmlFor="password">Password</label><button type="button" className="text-action" aria-pressed={showPassword} onClick={()=>setShowPassword(!showPassword)}>{showPassword?'Hide password':'Show password'}</button></div><input id="password" name="password" type={showPassword?'text':'password'} required minLength={mode==='signup'?8:undefined} maxLength={128} autoComplete={mode==='signup'?'new-password':'current-password'}/>{mode==='signup'&&<small>Use at least 8 characters. A longer, unique password is best.</small>}</div>
       {mode==='signup'&&<div className="field"><label htmlFor="confirmPassword">Confirm password</label><input id="confirmPassword" name="confirmPassword" type={showPassword?'text':'password'} required minLength={8} maxLength={128} autoComplete="new-password"/></div>}</>}
-      <Button type="submit" disabled={busy}>{busy?'Please wait…':mode==='signup'?'Create account':mode==='recovery'?'Send reset link':'Sign in'}</Button>
-      <div className="auth-help"><button type="button" className="text-action" disabled={busy} onClick={()=>changeMode(mode==='recovery'?'signin':'recovery')}>{mode==='recovery'?'Back to sign in':'Forgot your password?'}</button></div>
+      <Button type="submit" loading={busy} disabled={busy}>{busy?'Please wait…':mode==='signup'?'Create account':mode==='recovery'?'Send reset link':'Sign in'}</Button>
+      <div className="auth-help"><button type="button" className="text-action" aria-busy={busy} disabled={busy} onClick={()=>changeMode(mode==='recovery'?'signin':'recovery')}>{mode==='recovery'?'Back to sign in':'Forgot your password?'}</button></div>
     </form>
-    {mode!=='recovery'&&<div className="auth-alternative"><p className="muted">Or use your GitHub account</p><Button type="button" variant="secondary" disabled={busy} onClick={github}>Continue with GitHub</Button></div>}
+    {mode!=='recovery'&&<div className="auth-alternative"><p className="muted">Or use your GitHub account</p><Button type="button" variant="secondary" loading={busy} disabled={busy} onClick={github}>Continue with GitHub</Button></div>}
   </div>;
 }

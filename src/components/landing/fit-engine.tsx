@@ -22,10 +22,10 @@ const whyReasons = [
 export function FitEngine() {
   return (
     <section id="fit-engine" className="relative bg-[#07080a] text-white py-24 sm:py-32 border-t border-white/10">
-      <div className="mx-auto max-w-7xl px-6 sm:px-12">
+      <div className="section-container mx-auto max-w-7xl px-6 sm:px-12">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.35fr] items-center">
           {/* Left Column: Heading & 4 Capabilities */}
-          <div className="flex flex-col gap-6">
+          <div data-reveal className="flex flex-col gap-6">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
               EXPLAINABLE FIT ENGINE
             </p>
@@ -68,16 +68,16 @@ export function FitEngine() {
           </div>
 
           {/* Right Column: 2x2 Grid of Match Diagnostics Cards */}
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div data-reveal className="fit-cards grid gap-4">
             {/* Card 1: Illustrative fit score (93 / 100) */}
             <div className="rounded-2xl border border-white/10 bg-[#121418] p-6 shadow-xl flex flex-col justify-between">
               <div>
                 <p className="text-xs font-bold text-neutral-400 mb-3">
                   Illustrative fit score
                 </p>
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex flex-wrap items-center gap-3 mb-4">
                   <span className="whitespace-nowrap text-5xl font-black text-white">91.5<span className="ml-1 text-xs font-medium text-neutral-400">/100</span></span>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-950/70 px-3 py-1 text-xs font-bold text-emerald-400">
+                  <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-950/70 px-3 py-1 text-xs font-bold text-emerald-400">
                     <span>✓</span> Example fit
                   </span>
                 </div>
@@ -91,16 +91,17 @@ export function FitEngine() {
             <div className="rounded-2xl border border-white/10 bg-[#121418] p-6 shadow-xl flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="relative h-11 w-11 overflow-hidden rounded-full border border-white/20 bg-neutral-800">
+                  <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-white/20 bg-neutral-800">
                     <Image
                       src="/design/creator_sarah.jpg"
                       alt="Sarah Avatar"
                       fill
+                      sizes="44px"
                       className="object-cover"
                     />
                   </div>
                   <div>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       <span className="text-sm font-bold text-white">Example creator</span>
                       <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-blue-500 text-white text-[9px] font-black">
                         ✓
@@ -141,7 +142,7 @@ export function FitEngine() {
                     </div>
                     <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-[#fc6e1c] to-[#fc114c]"
+                        className="fit-progress h-full rounded-full bg-gradient-to-r from-[#fc6e1c] to-[#fc114c]"
                         style={{ width: `${m.pct}%` }}
                       />
                     </div>

@@ -1,3 +1,4 @@
+import { WorkspaceHero } from '@/components/ui/workspace';
 import { z } from 'zod';
 import { serverSupabase } from '@/server/supabase';
 import { parseDiscoveryParams } from '@/domain/contracts/discovery';
@@ -11,5 +12,8 @@ export default async function Creators({searchParams}:{searchParams:Promise<Reco
  const {data:account}=auth.user?await db.from('accounts').select('role').eq('id',auth.user.id).single():{data:null};
  const data=await discover(filters,briefId,page);
  const {data:saved}=briefId&&account?.role==='brand'?await db.from('shortlists').select('creator_id').eq('brief_id',briefId):{data:[]};
- return <div className="stack"><div><div className="eyebrow">Explainable creator discovery</div><h1>Find a production fit</h1><p className="muted">Every result comes from published records. Brief fit explains declared capabilities and evidence completeness.</p></div><DiscoveryView key={params.toString()} data={data} catalog={catalog??[]} queryString={params.toString()} briefId={briefId} brand={account?.role==='brand'} page={page} initialSaved={saved?.map(s=>s.creator_id)??[]}/></div>;
+ const portfolioIds=data.items.flatMap(creator=>creator.portfolioIds).slice(0,60);
+ const {data:previews}=portfolioIds.length?await db.from('portfolio_items').select('id,title,media_kind,preview_asset_id').in('id',portfolioIds).eq('published',true):{data:[]};
+ const covers=Object.fromEntries(data.items.map(creator=>{const work=previews?.find(item=>creator.portfolioIds.includes(item.id)&&item.preview_asset_id);return [creator.id,work?{assetId:work.preview_asset_id,kind:work.media_kind,title:work.title}:null];}));
+ return <div className="workspace-page"><WorkspaceHero eyebrow="EXPLAINABLE CREATOR DISCOVERY" title="Find a production fit" description="Discover creative work with the process behind it. Explore published portfolios, compare capabilities, and find the right collaborator for your next idea."/><DiscoveryView covers={covers} key={params.toString()} data={data} catalog={catalog??[]} queryString={params.toString()} briefId={briefId} brand={account?.role==='brand'} page={page} initialSaved={saved?.map(s=>s.creator_id)??[]}/></div>;
 }

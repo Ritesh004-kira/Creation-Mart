@@ -9,10 +9,10 @@ export function BriefCopilot() {
 
   return (
     <section id="brief-copilot" className="relative bg-[#fbfbfb] text-black py-24 sm:py-32 border-t border-neutral-200">
-      <div className="mx-auto max-w-7xl px-6 sm:px-12">
+      <div className="section-container mx-auto max-w-7xl px-6 sm:px-12">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.35fr] items-center">
           {/* Left Column: Heading & 3 Feature Points */}
-          <div className="flex flex-col gap-6">
+          <div data-reveal className="flex flex-col gap-6">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
               BRIEF COPILOT
             </p>
@@ -85,9 +85,9 @@ export function BriefCopilot() {
           </div>
 
           {/* Source design preview; operational editor is linked above. */}
-          <div className="rounded-[32px] border border-[#fee2e2] bg-[#fff5f5] p-5 sm:p-7 shadow-lg">
+          <div data-reveal className="copilot-preview rounded-[32px] border border-[#fee2e2] bg-[#fff5f5] p-5 sm:p-7 shadow-lg">
             <div className="flex justify-end mb-5">
-              <div className="inline-flex items-center gap-1 rounded-full bg-neutral-200/50 p-1 text-[11px] font-bold">
+              <div className="preview-switch inline-flex items-center gap-1 rounded-full bg-neutral-200/50 p-1 text-[11px] font-bold" role="group" aria-label="Brief Copilot preview">
                 <button
                   type="button"
                   aria-pressed={activeTab === "brief"}
@@ -117,7 +117,7 @@ export function BriefCopilot() {
 
             {/* Tab 1: AI Generated Brief */}
             {activeTab === "brief" ? (
-              <div className="grid gap-4 md:grid-cols-2">
+              <div key="brief" className="preview-panel copilot-cards grid gap-4">
                 {/* Card 1: Brief Copilot Input & Extraction */}
                 <div className="rounded-2xl border border-neutral-100 bg-white p-5 sm:p-6 shadow-sm flex flex-col justify-between">
                   <div>
@@ -203,9 +203,9 @@ export function BriefCopilot() {
                       </Link>
                     </div>
 
-                    <h4 className="text-sm font-bold text-black">
+                    <h3 className="text-sm font-bold text-black">
                       Summer Refresh Campaign
-                    </h4>
+                    </h3>
                     <p className="mt-1.5 text-xs text-neutral-600 leading-relaxed">
                       A high-energy, authentic campaign showcasing real people enjoying our new drink outdoors. UGC style, upbeat and natural.
                     </p>
@@ -257,8 +257,8 @@ export function BriefCopilot() {
               </div>
             ) : (
               /* Tab 2: Matching Creators Preview */
-              <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm">
-                <div className="flex items-center justify-between mb-5">
+              <div key="creators" className="preview-panel rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-emerald-500" />
                     <span className="text-xs font-bold text-black uppercase tracking-wider">Example production styles</span>
@@ -268,10 +268,10 @@ export function BriefCopilot() {
                   </span>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="preview-creators grid gap-3">
                   <div className="rounded-xl border border-neutral-200 p-3 bg-neutral-50">
                     <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-2">
-                      <Image src="/design/creator_sarah.jpg" alt="Sarah" fill className="object-cover" />
+                      <Image src="/design/creator_sarah.jpg" alt="Sarah" fill sizes="(max-width: 639px) 80vw, 240px" className="object-cover" />
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-black">@sarah.outside</span>
@@ -282,7 +282,7 @@ export function BriefCopilot() {
 
                   <div className="rounded-xl border border-neutral-200 p-3 bg-neutral-50">
                     <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-2">
-                      <Image src="/design/creator_lily.jpg" alt="Lily" fill className="object-cover" />
+                      <Image src="/design/creator_lily.jpg" alt="Lily" fill sizes="(max-width: 639px) 80vw, 240px" className="object-cover" />
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-black">@lily.travels</span>
@@ -293,7 +293,7 @@ export function BriefCopilot() {
 
                   <div className="rounded-xl border border-neutral-200 p-3 bg-neutral-50">
                     <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-2">
-                      <Image src="/design/creator_jake.jpg" alt="Jake" fill className="object-cover" />
+                      <Image src="/design/creator_jake.jpg" alt="Jake" fill sizes="(max-width: 639px) 80vw, 240px" className="object-cover" />
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-black">@jake.creates</span>

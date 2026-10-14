@@ -54,9 +54,9 @@ export function Trust() {
   const ordered=[...trustItems.slice(offset),...trustItems.slice(0,offset)];
   return (
     <section id="proof" className="relative bg-[#fbfbfb] text-black py-24 sm:py-32 border-t border-neutral-200">
-      <div className="mx-auto max-w-7xl px-6 sm:px-12">
+      <div className="section-container mx-auto max-w-7xl px-6 sm:px-12">
         {/* Header with Carousel Navigation on the Right */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div data-reveal className="section-heading flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div className="max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500 mb-3">
               PRODUCTION PASSPORTS
@@ -72,14 +72,14 @@ export function Trust() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              aria-label="Previous evidence cards" onClick={()=>setOffset((offset+3)%4)}
+              aria-label="Previous evidence cards" onClick={()=>setOffset(value=>(value+3)%4)}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-600 shadow-sm transition-all hover:bg-neutral-100 hover:text-black cursor-pointer"
             >
               ←
             </button>
             <button
               type="button"
-              aria-label="Next evidence cards" onClick={()=>setOffset((offset+1)%4)}
+              aria-label="Next evidence cards" onClick={()=>setOffset(value=>(value+1)%4)}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-600 shadow-sm transition-all hover:bg-neutral-100 hover:text-black cursor-pointer"
             >
               →
@@ -88,7 +88,7 @@ export function Trust() {
         </div>
 
         {/* 4 Cards Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div data-reveal className="trust-cards grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {ordered.map((item) => (
             <div
               key={item.title}

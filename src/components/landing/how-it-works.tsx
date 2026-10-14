@@ -71,10 +71,10 @@ export function HowItWorks() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/85 via-black/35 to-black/90" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
-        <div className="grid gap-12 lg:grid-cols-[1fr_2fr] items-center">
+      <div className="section-container relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
+        <div className="workflow-layout grid gap-12 items-center">
           {/* Left Column: Heading & Button */}
-          <div className="flex flex-col gap-6">
+          <div data-reveal className="flex flex-col gap-6">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
               COLLABORATION WORKFLOW
             </p>
@@ -97,7 +97,7 @@ export function HowItWorks() {
           </div>
 
           {/* Right Column: 4 Workflow Steps */}
-          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <div data-reveal className="workflow-cards grid gap-6 grid-cols-1 sm:grid-cols-2">
             {steps.map((s) => (
               <div
                 key={s.num}

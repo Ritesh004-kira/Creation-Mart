@@ -1,4 +1,5 @@
 'use client';
+import { trackedFetch } from '@/lib/tracked-fetch';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ export function ProfileForm({initial,catalog}:{initial:Profile;catalog:CatalogTe
       capabilities:caps,minimumPriceMinor:Math.round(Number(value('price'))*100),currency:value('currency'),available:value('available')==='on',deliveryDays:Number(value('deliveryDays')),rightsOffer:rights};
     const parsed=creatorSchema.safeParse(body);
     if(!parsed.success){setError(parsed.error.issues.map(i=>i.path.join('.')+': '+i.message).join(' · '));setBusy(false);return;}
-    try{const r=await fetch('/api/v1/me/creator',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:parsed.data,expectedVersion:version})});const data=await r.json();if(!r.ok)throw new Error(data.error?.message??'Could not save.');setVersion(data.data.version);setSaved(true);router.refresh();}catch(e){setError(e instanceof Error?e.message:'Could not save.');}finally{setBusy(false);}
+    try{const r=await trackedFetch('/api/v1/me/creator',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:parsed.data,expectedVersion:version})});const data=await r.json();if(!r.ok)throw new Error(data.error?.message??'Could not save.');setVersion(data.data.version);setSaved(true);router.refresh();}catch(e){setError(e instanceof Error?e.message:'Could not save.');}finally{setBusy(false);}
   }
   return <form onSubmit={save} className="stack">{error&&<div role="alert" className="error"><strong>Check your profile</strong><p>{error}</p><button type="button" className="button button-secondary" onClick={()=>window.location.reload()}>Reload saved profile</button></div>}
     <section className="card"><h2>Your introduction</h2>{[['displayName','Your name',2,80],['headline','Production headline',10,120],['country','Country code',2,2],['timezone','Timezone',1,80]] .map(([key,label,min,max])=><div key={String(key)} className="field"><label htmlFor={String(key)}>{label} *</label><input id={String(key)} name={String(key)} required minLength={Number(min)} maxLength={Number(max)} defaultValue={String(initial[key as keyof Profile]??(key==='timezone'?'Asia/Kolkata':''))}/></div>)}
@@ -34,6 +35,6 @@ export function ProfileForm({initial,catalog}:{initial:Profile;catalog:CatalogTe
     <section className="card"><CapabilityEditor initial={initialCaps} onChange={setCaps}/></section>
     <section className="card"><h2>Quote and schedule</h2><div className="grid"><div className="field"><label htmlFor="price">Starting project quote *</label><input id="price" name="price" type="number" min={0.01} step={0.01} required defaultValue={initial.minimumPriceMinor?initial.minimumPriceMinor/100:''}/></div><div className="field"><label htmlFor="currency">Currency *</label><select id="currency" name="currency" defaultValue={initial.currency??'INR'}><option>INR</option><option>USD</option><option>GBP</option><option>EUR</option></select></div><div className="field"><label htmlFor="deliveryDays">Typical delivery days *</label><input id="deliveryDays" name="deliveryDays" type="number" min={1} max={90} required defaultValue={initial.deliveryDays??7}/></div></div><label><input name="available" type="checkbox" defaultChecked={initial.available} style={{width:20,height:20,marginRight:10}}/>Available for new briefs</label></section>
     <section className="card"><RightsEditor offer={(initial.rightsOffer??null) as RightsOfferV1|null}/></section>
-    <div className="actions"><Button disabled={busy}>{busy?'Saving…':'Save profile'}</Button><span role="status">{saved?'Profile saved.':''}</span></div>
+    <div className="actions"><Button loading={busy} disabled={busy}>{busy?'Saving…':'Save profile'}</Button><span role="status">{saved?'Profile saved.':''}</span></div>
   </form>;
 }

@@ -5,10 +5,10 @@ import Image from "next/image";
 export function RightsPreview() {
   return (
     <section id="rights" className="relative bg-[#07080a] text-white py-24 sm:py-32 border-t border-white/10">
-      <div className="mx-auto max-w-7xl px-6 sm:px-12">
+      <div className="section-container mx-auto max-w-7xl px-6 sm:px-12">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1.3fr] items-center">
           {/* Left Column: Heading & 3 Bullets */}
-          <div className="flex flex-col gap-6">
+          <div data-reveal className="flex flex-col gap-6">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
               RIGHTS &amp; RECEIPTS · ILLUSTRATIVE PREVIEW
             </p>
@@ -63,7 +63,7 @@ export function RightsPreview() {
 
             <div className="pt-2">
               <a
-                href="/briefs/new"
+                href="/terms"
                 className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition-all hover:bg-white/15 hover:scale-105 active:scale-95"
               >
                 <span>LEARN ABOUT RIGHTS</span>
@@ -73,9 +73,9 @@ export function RightsPreview() {
           </div>
 
           {/* Right Column: Rights Fit Receipt Card */}
-          <div className="rounded-3xl border border-white/10 bg-[#121418] p-6 sm:p-8 shadow-2xl">
+          <div data-reveal className="rights-preview rounded-3xl border border-white/10 bg-[#121418] p-6 sm:p-8 shadow-2xl">
             {/* Header: Title + VERIFIED Badge */}
-            <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-white/10 mb-6">
               <h3 className="text-base font-bold text-white">
                 Rights Fit Receipt
               </h3>
@@ -101,6 +101,7 @@ export function RightsPreview() {
                         src="/design/creator_sarah.jpg"
                         alt="Sarah Avatar"
                         fill
+                        sizes="20px"
                         className="object-cover"
                       />
                     </div>
@@ -138,6 +139,7 @@ export function RightsPreview() {
                     src="/design/receipt_drink.jpg"
                     alt="Summer Drink Campaign Visual"
                     fill
+                    sizes="180px"
                     className="object-cover"
                   />
                   {/* Subtle vignette */}

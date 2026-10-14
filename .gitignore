@@ -2,6 +2,12 @@
 !.env.example
 node_modules/
 .next/
+.cache/
+.turbo/
+.vite/
+.parcel-cache/
+.eslintcache
+.stylelintcache
 playwright-report/
 test-results/
 coverage/
