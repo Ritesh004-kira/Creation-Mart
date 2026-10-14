@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { boundedFetch } from '@/lib/bounded-fetch';
 export async function middleware(request:NextRequest) {
   const nonce=btoa(crypto.randomUUID());
   const supabaseOrigin=new URL(process.env.NEXT_PUBLIC_SUPABASE_URL!).origin;
@@ -12,6 +13,7 @@ export async function middleware(request:NextRequest) {
   const headers=new Headers(request.headers);headers.set('x-nonce',nonce);headers.set('Content-Security-Policy',csp);
   let response=NextResponse.next({request:{headers}});
   const db=createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,{
+    global:{fetch:boundedFetch},
     cookies:{getAll:()=>request.cookies.getAll(),setAll(items,cacheHeaders){
       items.forEach(({name,value})=>request.cookies.set(name,value));
       headers.set('cookie',request.cookies.toString());

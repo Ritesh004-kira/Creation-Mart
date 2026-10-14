@@ -66,7 +66,7 @@ export const portfolioSchema = z.strictObject({
   if(!v.modelRefs.length && !v.modelDisclosureNote.trim())
     c.addIssue({code:'custom',path:['modelDisclosureNote'],message:'Declare models or explain that none were used'});
   if(v.artifactOrigin==='procedural_demo' && v.generationDisclosure!=='no_ai')
-    c.addIssue({code:'custom',path:['generationDisclosure'],message:'Procedural demo files must be labeled no AI'});
+    c.addIssue({code:'custom',path:['generationDisclosure'],message:'Original procedural work files must be labeled no AI'});
 });
 export const formatKinds: Record<string,string[]> = {image:['png','jpeg','webp'],video:['mp4'],audio:['wav','mp3'],text:['txt'],three_d:[]};
 export const outputSchema = z.strictObject({

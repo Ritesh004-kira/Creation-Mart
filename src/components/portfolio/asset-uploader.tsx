@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 export type UploadedAsset={id:string;state:string;kind:string;format:string;actual_bytes:number;sha256:string;checked_at:string;width_px:number|null;height_px:number|null;checks:Record<string,unknown>};
 export function AssetUploader({parentId,purpose,kind,onReady}:{parentId:string;purpose:'portfolio_preview'|'portfolio_source'|'evidence'|'submission'|'brief_reference';kind:string;onReady:(asset:UploadedAsset)=>void}){
  const [busy,setBusy]=useState(false),[status,setStatus]=useState(''),[error,setError]=useState(''),[failedAsset,setFailedAsset]=useState<string|null>(null);const input=useRef<HTMLInputElement>(null),action=useRef<{file:File;key:string;uploaded?:boolean}|null>(null);
- const inputId=useId(); const db=createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!);
+ const inputId=useId(); const [db]=useState(()=>createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,{isSingleton:false,global:{fetch:(input,init)=>{const timeout=AbortSignal.timeout(90_000);return fetch(input,{...init,signal:init?.signal?AbortSignal.any([init.signal,timeout]):timeout});}}}));
  async function upload(){
   const file=input.current?.files?.[0];if(!file){setError('Choose a file first.');return;}setBusy(true);setError('');
   const ext=file.name.split('.').pop()?.toLowerCase(),format=ext==='jpg'?'jpeg':ext;
@@ -17,7 +17,7 @@ export function AssetUploader({parentId,purpose,kind,onReady}:{parentId:string;p
     const {asset,upload:authorization}=body.data;
     setFailedAsset(asset.id);
     if(asset.state==='ready'){onReady(asset);setFailedAsset(null);setStatus('File ready.');return;}
-    setStatus('Uploading file…');const {error:uploadError}=await db.storage.from(asset.bucket).uploadToSignedUrl(asset.path,authorization.token,file,{contentType:file.type||'application/octet-stream',upsert:false});if(uploadError&&!/already exists|duplicate/i.test(uploadError.message))throw new Error('The upload could not finish. Retry the same file.');action.current.uploaded=true;
+    if(!action.current.uploaded){setStatus('Uploading file…');const {error:uploadError}=await db.storage.from(asset.bucket).uploadToSignedUrl(asset.path,authorization.token,file,{contentType:file.type||'application/octet-stream',upsert:false});if(uploadError&&!/already exists|duplicate/i.test(uploadError.message))throw new Error('The upload could not finish. Retry the same file.');action.current.uploaded=true;}
     setStatus('Checking actual file bytes…');const {data:checked,error:checkError}=await db.functions.invoke('finalize-asset',{body:{assetId:asset.id}});
     if(checkError){if(checkError.context instanceof Response){const problem=await checkError.context.json();throw new Error(problem.error?.message??'The file check failed.');}throw new Error('The file check is unavailable. Try again.');}
     onReady(checked.data);setFailedAsset(null);setStatus('File checked and ready.');action.current=null;
