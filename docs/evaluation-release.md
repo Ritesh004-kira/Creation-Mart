@@ -1,16 +1,28 @@
 # Documentation release — 14 October 2026
 
-This record supersedes old deployment/source identifiers only for the evaluator-documentation release. The existing complete application source was synchronized to main at `2379109`.
+## Production publication
+
+- Canonical website: https://creation-mart.vercel.app
+- Evaluator overview: https://creation-mart.vercel.app/project-overview
+- Deployed application/documentation source: `05c4b6ab4b7fef2567766f634b7db4b0501a710f` on `main`.
+- Vercel deployment: https://vercel.com/ritesh004-kiras-projects/creation-mart/5iWPFj3ReZYvjnXHnsk9qSCA73Jm
+- Vercel GitHub check: success, observed 14 October 2026 at approximately 12:15 IST.
+- This record-only follow-up does not change the deployed application. Previous run-state/handoff deployment identifiers are historical.
 
 ## Delivered content
 
-- Full README and evaluation guide covering all four USPs, features, user journeys, architecture, API routes, access controls, setup, evidence and limitations.
-- Public `/project-overview` HTML, `/llms.txt` and `/project-overview.json`; discoverable from navigation, footer, About page and sitemap.
-- Shared catalog at `src/content/project-overview.json`.
+Comprehensive README, evaluation guide and architecture/data-flow document; public HTML overview; complete plain-text guide and structured JSON catalog; documentation links in the menu, footer and About page; public sitemap and robots file. The catalog covers four USPs, seven feature groups, seven journey steps, architecture layers, data relationships, route access, API groups, security controls, setup, source references, evidence and honest implementation boundaries.
 
-## Verification and deployment
+## Actual verification
 
-Release validation and deployment status will be appended after actual checks. Historical evidence remains linked and is explicitly dated; no complete retest of authenticated journeys is implied by this documentation change.
+- ESLint: passed.
+- Unit tests: 70 passed across seven files.
+- Optimized production build: passed, including type checking and generation of documentation discovery routes.
+- Feature source reference check: no missing paths.
+- Public JSON catalog exactly matches the source catalog.
+- Production `/project-overview`, `/llms.txt`, `/project-overview.json`, `/sitemap.xml`, `/robots.txt` and `/api/v1/health`: all HTTP 200. HTML contains the complete guide, JSON contains all four USPs and seven feature groups, and sitemap includes the overview.
+- GitHub `main` holds the full documentation source; local main is synchronized after publication.
 
-Local verification: ESLint passed; all 70 unit tests passed; production compilation, type validation and static-page generation passed. Remote publication and public URL status are pending verification.
-Production build completed successfully (including the new /project-overview, robots.txt and sitemap.xml routes).
+## Scope of these checks
+
+These checks verify the documentation release, current build and public dependency readiness. They do not imply a fresh full retest of every authenticated marketplace journey. Historical behavioral evidence and October 14 UI/account verification gaps are explicitly identified in the evaluator guide. No credentials, private evidence or participant deliveries are made public.
