@@ -1,5 +1,7 @@
 "use client";
 
+import { BackgroundFilm } from './film-button';
+
 const steps = [
   {
     num: "1",
@@ -61,19 +63,12 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="relative overflow-hidden bg-black text-white py-24 sm:py-32 border-t border-white/10">
       {/* Background Video (Video Project.webm) with balanced opacity */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <video
-          className="h-full w-full object-cover scale-100 opacity-60"
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <BackgroundFilm
+          className="absolute inset-0 h-full w-full object-cover opacity-60"
           src="/design/video-project.webm"
-          autoPlay={false}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          disablePictureInPicture
-          tabIndex={-1}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/35 to-black/90" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/85 via-black/35 to-black/90" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
