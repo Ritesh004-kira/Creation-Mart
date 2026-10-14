@@ -1,0 +1,13 @@
+'use client';
+import type { RightsOfferV1 } from '@/domain/contracts';
+export function RightsEditor({offer}:{offer:RightsOfferV1|null}) {
+  const permissions=[['commercial','Commercial use'],['paidAds','Paid advertising'],['modifications','Modifications'],['sourceFiles','Source files'],['exclusiveArrangement','Exclusive arrangement'],['trainingUse','Model training use']] as const;
+  return <fieldset><legend>Usage permissions you offer</legend><p className="muted">These are your declarations. Unknown permissions remain visible for review.</p><div className="grid">{permissions.map(([key,label])=><div className="field" key={key}><label htmlFor={key}>{label}</label><select id={key} name={'rights.'+key} defaultValue={offer?.[key]===true?'true':offer?.[key]===false?'false':'unknown'}><option value="unknown">Unknown / needs discussion</option><option value="true">Allowed</option><option value="false">Not allowed</option></select></div>)}</div>
+    <div className="field"><label htmlFor="attribution">Attribution</label><select id="attribution" name="rights.attribution" defaultValue={offer?.attribution??'unknown'}><option value="unknown">Unknown</option><option value="required">Required</option><option value="not_required">Not required</option></select></div>
+    <div className="field"><label htmlFor="territories">Territories *</label><input id="territories" name="rights.territories" defaultValue={offer?.territories.join(', ')??'WORLD'} required/><small>WORLD, or country codes separated by commas, such as IN, GB.</small></div>
+    <div className="field"><label htmlFor="term">Maximum usage term in days</label><input id="term" name="rights.maxTermDays" type="number" min={1} max={36500} defaultValue={offer?.maxTermDays??''}/><small>Leave empty if unknown.</small></div>
+    <div className="field"><label htmlFor="thirdPartyStatus">Input and third-party permissions</label><select id="thirdPartyStatus" name="rights.thirdPartyStatus" defaultValue={offer?.thirdPartyStatus??'unknown'}><option value="unknown">Unknown / needs review</option><option value="clear_declared">I declare the required permissions</option><option value="restricted">Restrictions prevent some uses</option></select></div>
+    <div className="field"><label htmlFor="restrictions">Additional restrictions</label><textarea id="restrictions" name="rights.restrictions" defaultValue={offer?.restrictions.join('\n')??''} maxLength={2000}/><small>One restriction per line.</small></div>
+    <div className="field"><label htmlFor="declarationText">Your permission declaration *</label><textarea id="declarationText" name="rights.declarationText" defaultValue={offer?.declarationText??''} required maxLength={2000}/></div>
+  </fieldset>;
+}

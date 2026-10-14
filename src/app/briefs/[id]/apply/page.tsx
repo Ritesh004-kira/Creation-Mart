@@ -1,0 +1,6 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { z } from 'zod';
+import { requireRole } from '@/server/auth/require-user';
+import { ApplicationForm } from './application-form';
+export default async function Apply({params}:{params:Promise<{id:string}>}){const {id}=await params;if(!z.uuid().safeParse(id).success)notFound();const {db,user}=await requireRole('creator','/briefs/'+id+'/apply');const [{data:b,error},{data:p}]=await Promise.all([db.from('briefs').select('id,state,safe_payload,published_revision').eq('id',id).eq('state','published').maybeSingle(),db.from('creator_profiles').select('rights_offer,published').eq('user_id',user.id).single()]);if(error)throw new Error('Brief unavailable.');if(!b)notFound();if(!p?.published)return <section className="card"><h1>Publish your profile first</h1><p>A checked work item and complete profile are required before applying.</p><Link href="/creator/preview">Preview and publish profile</Link></section>;return <div className="stack"><Link href={'/briefs/'+id}>← Back to brief</Link><h1>Apply to {b.safe_payload.title}</h1><ApplicationForm briefId={id} revision={b.published_revision} currency={b.safe_payload.currency} offer={p.rights_offer}/></div>;}

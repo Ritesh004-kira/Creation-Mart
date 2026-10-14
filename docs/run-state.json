@@ -1,0 +1,227 @@
+{
+  "baseline": "CM-2.0",
+  "runId": "c213484a-0c12-4cd6-a2a0-e4f67ae38db8",
+  "objective": "Build CreatorMatch end-to-end following System/Master_Goal.md.",
+  "activeImplementationLimitSeconds": 43200,
+  "repository": "Ritesh004-kira/Creation-Mart",
+  "repositoryVisibility": "public",
+  "repositoryPushPermissionVerified": true,
+  "localBranch": "implementation/creatormatch",
+  "supabaseProjectRef": "kfwmhbmkauiosobpqbdu",
+  "supabaseOrganizationId": "laxzetvelrnddinfxosl",
+  "supabasePlan": "free",
+  "supabaseProjectState": "ACTIVE_HEALTHY",
+  "awsAccountId": "797129634517",
+  "awsPrincipalType": "root",
+  "awsAccountPlan": "FREE",
+  "awsAccountPlanStatus": "ACTIVE",
+  "awsCreditBalanceUsd": 100,
+  "awsCreditExpiration": "2027-03-20T06:30:31.256Z",
+  "awsServiceCoverageVerified": false,
+  "host": "vercel_existing_requested",
+  "vercelPlan": "hobby",
+  "authorizedActions": [
+    "coding",
+    "selective licensed reuse",
+    "dependencies",
+    "implementation branch",
+    "canonical migrations",
+    "scoped demo data",
+    "tests",
+    "eligible demo deployment"
+  ],
+  "purchasesPermitted": false,
+  "awsGrossPlanningLimitUsd": 5,
+  "workerExpiresAt": null,
+  "createdExternalResources": [
+    "14 Supabase canonical migrations and scoped fictional demo records",
+    "Private Storage buckets and finalize-asset Edge v4",
+    "Two run-scoped IAM roles, one profile and one dormant IAM user"
+  ],
+  "aiEnabled": false,
+  "implementedFeatures": [
+    "Strict domain contracts",
+    "Rights comparison and capability pairing functions",
+    "Deterministic brief compiler and requirement derivation",
+    "Real password authentication and immutable onboarding",
+    "Creator profile editor with persisted guarded saves",
+    "Role-aware dashboards and session refresh",
+    "Responsive foundation and keyboard skip navigation",
+    "Private asset reservation and real finalizer",
+    "Portfolio publication and production passports",
+    "SQL-backed discovery, exact filters and fit breakdown",
+    "SQL/TypeScript rights receipts",
+    "Six-section persistent brief builder and published requirements",
+    "Persistent private shortlists and compare UI",
+    "Actual application, selection and frozen snapshots",
+    "Ready-file submission mapping and immutable versions",
+    "Requirement-specific revision and latest acceptance",
+    "Participant-only accepted final download",
+    "Role-specific application and engagement dashboards",
+    "Original playable MP4, PCM audio, image and text demo assets"
+  ],
+  "testResults": [
+    {
+      "suite": "unit",
+      "passed": 70
+    },
+    {
+      "suite": "hosted identity",
+      "passed": 13
+    },
+    {
+      "suite": "hosted security",
+      "passed": 18
+    },
+    {
+      "suite": "acceptance guards",
+      "passed": 6
+    },
+    {
+      "status": "passed",
+      "suite": "signed-upload replay",
+      "scope": "Replay, upsert override, new mint and private read denied"
+    },
+    {
+      "suite": "production build",
+      "status": "passed"
+    },
+    {
+      "suite": "lint",
+      "status": "passed"
+    },
+    {
+      "suite": "npm audit",
+      "vulnerabilities": 0
+    }
+  ],
+  "pauseSource": "System/Master_Goal.md: Explicit user-requested pause policy",
+  "productName": "Creation Mart",
+  "vercelProjectId": "prj_qNFGM4QpWt5foIgAkpJ8eYI51rGy",
+  "userOverrides": [
+    "Use existing Creation-Mart repository and Supabase project",
+    "Use existing creation-mart Vercel project",
+    "AWS root connector authorized for scoped IAM bootstrap; no reconnect requested"
+  ],
+  "localPreview": "http://localhost:3000",
+  "liveServerSession": 50456,
+  "credentialAccessLocation": "C:/Users/rites/.codex/secrets/creation-mart/c213484a-0c12-4cd6-a2a0-e4f67ae38db8.dpapi",
+  "finalizer": {
+    "id": "80233f6a-c990-4cd9-aa1a-a6a3bb4da302",
+    "name": "finalize-asset",
+    "version": 4,
+    "status": "ACTIVE",
+    "verifyJwt": true
+  },
+  "seedSummary": {
+    "creators": 12,
+    "items": 24,
+    "brands": 2,
+    "briefs": {
+      "lumaleaf": "64c17782-7d5d-49af-a0f3-21ed37fd6218",
+      "conflicting": "209781e0-fe3f-4bf7-a6da-2084b1d82dfd",
+      "orbitnote": "320876ee-2f8f-4d21-884c-c2261e7b1c23"
+    },
+    "credentialRows": 14,
+    "origin": "procedural_demo",
+    "checks": "actual Edge hash/header/dimensions"
+  },
+  "checkpointAt": "2026-10-13T18:14:40.032Z",
+  "activeImplementationSeconds": 28194,
+  "phase": "verified_complete_ready_for_handoff",
+  "blocker": null,
+  "requiredUserAction": null,
+  "nextTask": "All mandatory gates passed; final repository checkpoint and native completion.",
+  "existingApplicationTables": 14,
+  "existingMigrations": 14,
+  "remoteCommit": "528f05a7eb54e841c7c5d3f709126e612964a07c",
+  "deploymentUrl": "https://creation-mart.vercel.app",
+  "deploymentStatus": "READY",
+  "deploymentId": "dpl_GKFGFGTfYy82xWTY3bWZ3eYH3p47",
+  "deployedSourceCommit": "528f05a7eb54e841c7c5d3f709126e612964a07c",
+  "vercelEligibilityVerified": true,
+  "vercelEligibilityBasis": "Personal fictional non-commercial educational prototype; official Hobby/fair-use policy checked. No payments/real client fulfillment.",
+  "awsIamStatus": "configured_and_policy_simulated",
+  "awsRuntimeAuthentication": "not_tested_no_credentials_issued",
+  "awsRegion": "ap-south-1",
+  "workerCount": 0,
+  "remainingFeatures": [],
+  "migrations": [
+    "20261013093256_identity_catalog",
+    "20261013094129_profile_version_guard",
+    "20261013105048_portfolio_assets",
+    "20261013112518_portfolio_guard_fixes",
+    "20261013114531_briefs_marketplace",
+    "20261013123954_discovery_rights",
+    "20261013124535_discovery_access_fixes",
+    "20261013130107_marketplace_guards",
+    "20261013131042_engagement_workflow",
+    "20261013131316_workflow_security_fixes",
+    "20261013152049_claim_evidence_staleness",
+    "20261013154447_submission_asset_scope_guard",
+    "20261013174127_acceptance_asset_scope_guard",
+    "20261013174930_cancelled_upload_replay_guard"
+  ],
+  "actualCounts": {
+    "publicTables": 14,
+    "authUsers": 15,
+    "creatorProfiles": 12,
+    "brandProfiles": 2,
+    "portfolioItems": 35,
+    "briefs": 17,
+    "acceptedEngagements": 4,
+    "allocatedStorageBytes": 2452592
+  },
+  "oauthSetup": {
+    "githubEnabled": true,
+    "supabaseCallback": "https://kfwmhbmkauiosobpqbdu.supabase.co/auth/v1/callback",
+    "applicationCallback": "https://creation-mart.vercel.app/auth/callback",
+    "status": "production_callback_verified",
+    "signedInOnboarding": "https://creation-mart.vercel.app/onboarding",
+    "browserId": "2",
+    "tabId": "5",
+    "humanRoleAssigned": false
+  },
+  "browserResults": [
+    {
+      "suite": "production foundation and connected routes",
+      "passed": 14,
+      "widths": [
+        375,
+        768,
+        1440
+      ]
+    },
+    {
+      "suite": "canonical same-brief production GUI journey",
+      "passed": 1,
+      "scope": "Publication through exact MP4/PNG accepted private download"
+    },
+    {
+      "suite": "accepted-history/back/outsider production gates",
+      "passed": 1
+    },
+    {
+      "suite": "local passport/evidence GUI",
+      "passed": 1
+    },
+    {
+      "suite": "local six-section brief-to-shortlist GUI",
+      "passed": 1
+    },
+    {
+      "suite": "local application-to-v2-acceptance GUI",
+      "passed": 1
+    }
+  ],
+  "vercelConfiguration": {
+    "framework": "nextjs",
+    "nodeVersion": "22.x",
+    "serverlessRegion": "hnd1",
+    "publicEnvConfigured": true,
+    "logEndpointAccess": "403_scope",
+    "deploymentSubmitted": true,
+    "publicProtection": "disabled_for_authorized_public_demo",
+    "providerReadyVerified": true
+  }
+}

@@ -1,0 +1,20 @@
+import { describe,it,expect } from 'vitest';
+import { evaluateRights } from '../../src/domain/rights-fit';
+import { offer,request,now } from './fixtures';
+const receipt=(change:Partial<typeof offer>={})=>evaluateRights(request,{...offer,...change},[],[],undefined,now);
+describe('declared rights receipts',()=>{
+ it('allows a fully declared compatible offer without implying clearance',()=>{expect(receipt().overall).toBe('compatible_declared');expect(receipt().basis).toBe('declarations_and_references');});
+ it('blocks a required false permission',()=>expect(receipt({paidAds:false}).overall).toBe('blocked'));
+ it('reviews a required unknown permission',()=>expect(receipt({paidAds:null}).overall).toBe('needs_review'));
+ it('does not penalize an unrequested permission',()=>expect(receipt({trainingUse:false,sourceFiles:null}).overall).toBe('compatible_declared'));
+ it('blocks an attribution conflict',()=>expect(receipt({attribution:'required'}).overall).toBe('blocked'));
+ it('blocks an insufficient territory',()=>expect(receipt({territories:['IN']}).overall).toBe('blocked'));
+ it('reviews an unknown territory',()=>expect(receipt({territories:[]}).overall).toBe('needs_review'));
+ it('blocks an insufficient term',()=>expect(receipt({maxTermDays:30}).overall).toBe('blocked'));
+ it('reviews an unknown term',()=>expect(receipt({maxTermDays:null}).overall).toBe('needs_review'));
+ it('blocks a publisher restriction',()=>expect(evaluateRights(request,offer,[{catalogSlug:'test',version:'1'}],[{slug:'test',commercial:true,conditionCodes:['no_paid_ads']}]).overall).toBe('blocked'));
+ it('reviews an unknown model',()=>expect(evaluateRights(request,offer,[{catalogSlug:'unknown',version:'1'}],[]).overall).toBe('needs_review'));
+ it.each([['restricted','blocked'],['unknown','needs_review']] as const)('handles third-party %s', (thirdPartyStatus,result)=>expect(receipt({thirdPartyStatus}).overall).toBe(result));
+ it('rechecks permissions on final delivery',()=>expect(evaluateRights(request,offer,[],[],{schemaVersion:1,offer:{...offer,paidAds:false},modelRefs:[],inputs:[],limitations:[],declaredAt:now.toISOString()}).overall).toBe('blocked'));
+ it('keeps explicit prohibition above unknown conditions',()=>expect(receipt({paidAds:false,maxTermDays:null}).overall).toBe('blocked'));
+});

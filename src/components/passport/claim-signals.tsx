@@ -1,0 +1,5 @@
+export type ClaimSignal = { id: string; assertion: string; status: string; stale: boolean; simulated: boolean; method?: string | null; checked_at?: string | null; limitations?: string[] };
+export function ClaimSignals({ signals }: { signals: ClaimSignal[] }) {
+  if (!signals.length) return null;
+  return <section className="card stack"><h3>Evidence for individual claims</h3><p className="muted">Evidence status applies to this assertion. Private attachments are not published.</p><ul className="stack">{signals.map(signal => <li key={signal.id}><span className="pill">{signal.stale ? 'Stale evidence — review needed' : signal.status.replaceAll('_', ' ')}</span>{signal.simulated && <span className="pill">Illustrative claim</span>}<p>{signal.assertion}</p>{signal.method && <p>{signal.method}</p>}{signal.checked_at && <p className="muted">Checked {new Date(signal.checked_at).toISOString().slice(0, 19).replace('T', ' ')} UTC</p>}{signal.limitations?.map((text, index) => <p className="muted" key={index}>{text}</p>)}</li>)}</ul></section>;
+}

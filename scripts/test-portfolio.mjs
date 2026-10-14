@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import { createHash,randomUUID } from 'node:crypto';
+import { createClient } from '@supabase/supabase-js';
+import { loadCredentials } from './secure-store.mjs';
+import { makePng } from './demo-media.mjs';
+import { offer } from '../tests/unit/fixtures.ts';
+process.loadEnvFile('.env.local');
+const url=process.env.NEXT_PUBLIC_SUPABASE_URL,key=process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,records=loadCredentials();
+const client=()=>createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
+async function login(name){const record=records.find(r=>r.name===name),db=client();assert(record);const {error}=await db.auth.signInWithPassword({email:record.email,password:record.password});assert(!error);return db;}
+const owner=await login('asha'),brand=await login('lumaleaf'),anon=client(),results=[];
+async function check(name,run){await run();results.push({name,status:'passed'});console.log('PASS '+name);}
+const workflow=['input','editing','export'].map((stage,i)=>({id:randomUUID(),ordinal:i+1,stage,toolSlug:'browser-canvas',description:'Original procedural demo step.',humanAction:'Selected the original colors and output dimensions.',inputDeclaration:'Original code and shapes. No third-party inputs.'}));
+const input={title:'Original procedural check',objective:'Demonstrate a real checked image.',description:'Original procedural demo file for the upload pipeline.',kind:'image',previewAssetId:null,outputFormats:['png'],widthPx:64,heightPx:64,outcomes:['product-ad'],styles:['clean'],modelRefs:[],workflow,humanContribution:'Selected the procedural image design.',generationDisclosure:'no_ai',modelDisclosureNote:'No model was used to produce these bytes.',rightsOffer:offer,artifactOrigin:'procedural_demo'};
+const action= randomUUID(),{data:item,error:createError}=await owner.rpc('create_portfolio_item',{p_input:input,p_key:action});assert(!createError,'Create failed: '+(createError?.message??''));
+await check('portfolio creation replays exact key without duplicate work',async()=>{const {data,error}=await owner.rpc('create_portfolio_item',{p_input:input,p_key:action});assert(!error);assert.equal(data.id,item.id);const {error:conflict}=await owner.rpc('create_portfolio_item',{p_input:{...input,title:'Different'},p_key:action});assert(conflict);});
+await check('direct invalid publication is rejected',async()=>{const {error}=await owner.rpc('publish_portfolio_item',{p_id:item.id,p_expected_version:item.version,p_key:randomUUID(),p_published:true});assert(error);});
+await check('brand and anonymous cannot read or edit creator draft',async()=>{for(const db of [brand,anon]){const {data,error}=await db.from('portfolio_items').select('id').eq('id',item.id);assert(!error);assert.equal(data.length,0);}const {error}=await brand.rpc('save_portfolio_item',{p_id:item.id,p_input:input,p_expected_version:1});assert(error);});
+const bytes=makePng(),reservationKey=randomUUID(),args={p_purpose:'portfolio_preview',p_kind:'image',p_format:'png',p_parent:item.id,p_declared_bytes:bytes.length,p_duration:null,p_key:reservationKey};
+const {data:asset,error:reserveError}=await owner.rpc('reserve_asset',args);assert(!reserveError,'Reserve failed: '+(reserveError?.message??''));
+await check('asset reservation allocates full purpose cap and replays identity',async()=>{assert.equal(asset.reserved_bytes,2000000);const {data,error}=await owner.rpc('reserve_asset',args);assert(!error);assert.equal(data.id,asset.id);});
+await check('other role cannot reserve a cross-parent asset',async()=>{const {error}=await brand.rpc('reserve_asset',{...args,p_key:randomUUID()});assert(error);});
+await check('client cannot alter technical fields or call privileged finalization RPC',async()=>{const {error}=await owner.from('assets').update({state:'ready',sha256:'a'.repeat(64),reserved_bytes:0}).eq('id',asset.id);assert(error);const {error:priv}=await owner.rpc('record_asset_check',{p_id:asset.id,p_result:{}});assert(priv);});
+const {data:upload,error:signError}=await owner.storage.from(asset.bucket).createSignedUploadUrl(asset.path,{upsert:false});assert(!signError,'Signed upload failed: '+(signError?.message??''));
+const {error:uploadError}=await owner.storage.from(asset.bucket).uploadToSignedUrl(asset.path,upload.token,bytes,{contentType:'image/png',upsert:false});assert(!uploadError,'Upload failed: '+(uploadError?.message??''));
+const {data:finalized,error:finalError}=await owner.functions.invoke('finalize-asset',{body:{assetId:asset.id}});if(finalError){const status=finalError.context?.status;let code='unknown';if(finalError.context instanceof Response){const e=await finalError.context.json();code=e.error?.code??e.msg??'unknown';}throw new Error('Finalizer failed: '+status+' '+code);}
+await check('uploaded bytes receive genuine hash, dimensions and timestamp',async()=>{assert.equal(finalized.data.state,'ready');assert.equal(finalized.data.sha256,createHash('sha256').update(bytes).digest('hex'));assert.equal(finalized.data.width_px,64);assert.equal(finalized.data.actual_bytes,bytes.length);assert(finalized.data.checked_at);});
+await check('private file and guessed signer calls are denied to outsiders',async()=>{const {error}=await brand.functions.invoke('finalize-asset',{body:{assetId:asset.id,operation:'read'}});assert(error);const {error:raw}=await owner.storage.from(asset.bucket).createSignedUrl(asset.path,31536000);assert(raw);});
+const {data:saved,error:saveError}=await owner.rpc('save_portfolio_item',{p_id:item.id,p_input:{...input,previewAssetId:asset.id},p_expected_version:item.version});assert(!saveError,'Save failed: '+(saveError?.message??''));
+const {data:published,error:publishError}=await owner.rpc('publish_portfolio_item',{p_id:item.id,p_expected_version:saved.version,p_key:randomUUID(),p_published:true});assert(!publishError,'Publish failed: '+(publishError?.message??''));
+const {data:profile}=await owner.from('creator_profiles').select('version').single();
+const {error:profileError}=await owner.rpc('publish_creator',{p_expected_version:profile.version,p_key:randomUUID(),p_published:true});assert(!profileError,'Profile publish failed: '+(profileError?.message??''));
+await check('published work becomes visible through actual anonymous rules',async()=>{const {data,error}=await anon.from('portfolio_items').select('id').eq('id',published.id);assert(!error);assert.equal(data.length,1);const {data:link,error:read}=await anon.functions.invoke('finalize-asset',{body:{assetId:asset.id,operation:'read'}});assert(!read,'Anonymous signed read failed.');assert.equal(link.data.expiresIn,120);const response=await fetch(link.data.url);assert.equal(response.status,200);assert.equal(createHash('sha256').update(new Uint8Array(await response.arrayBuffer())).digest('hex'),finalized.data.sha256);});
+console.log(JSON.stringify({scope:'portfolio upload/publication only',itemId:item.id,assetId:asset.id,results}));

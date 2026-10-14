@@ -1,0 +1,8 @@
+'use client';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+export function CompanyForm({initial}:{initial:{company_name:string;industry:string;audience:string;tone:string;country:string;version:number}}){
+ const [busy,setBusy]=useState(false),[status,setStatus]=useState(''),[version,setVersion]=useState(initial.version);
+ async function save(e:React.FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);const f=new FormData(e.currentTarget);try{const r=await fetch('/api/v1/me/brand',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({expectedVersion:version,input:{companyName:f.get('companyName'),industry:f.get('industry'),audience:f.get('audience'),tone:f.get('tone'),country:f.get('country')}})});const b=await r.json();if(!r.ok)throw new Error(b.error?.message??'Could not save company context.');setVersion(b.data.version);setStatus('Company context saved.');}catch(e){setStatus(e instanceof Error?e.message:'Try again.');}finally{setBusy(false);}}
+ return <details className="card"><summary>Company context</summary><form onSubmit={save} className="stack">{[['companyName','Company name *',initial.company_name,80],['industry','Industry',initial.industry,80],['audience','Typical audience',initial.audience,2000],['tone','Tone',initial.tone,120],['country','Country code *',initial.country,2]].map(([name,label,value,max])=><div className="field" key={String(name)}><label htmlFor={String(name)}>{label}</label><input id={String(name)} name={String(name)} defaultValue={String(value)} maxLength={Number(max)} required={name==='companyName'||name==='country'}/></div>)}<Button disabled={busy}>{busy?'Saving…':'Save company context'}</Button><p role="status">{status}</p></form></details>;
+}

@@ -1,0 +1,32 @@
+{
+  "passed": 3,
+  "results": [
+    {
+      "mode": "cancel",
+      "assetId": "2602497c-76bf-41ca-b928-0319b734e291",
+      "cancelledUploadReplayDenied": true,
+      "upsertOverrideDenied": true,
+      "newAuthorizationDenied": true,
+      "privateReadDenied": true,
+      "retainedBytes": 1
+    },
+    {
+      "mode": "invalid",
+      "assetId": "349ac7fd-c19c-4503-a407-e7f1c1837ca3",
+      "cancelledUploadReplayDenied": true,
+      "upsertOverrideDenied": true,
+      "newAuthorizationDenied": true,
+      "privateReadDenied": true,
+      "retainedBytes": 1
+    },
+    {
+      "mode": "oversize",
+      "assetId": "d724f435-2ab6-4144-8771-be49837cca5b",
+      "cancelledUploadReplayDenied": true,
+      "upsertOverrideDenied": true,
+      "newAuthorizationDenied": true,
+      "privateReadDenied": true,
+      "retainedBytes": 1
+    }
+  ]
+}

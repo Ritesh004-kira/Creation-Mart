@@ -1,0 +1,35 @@
+{
+  "baseline": "CM-2.0",
+  "copiedUnits": [
+    {
+      "repository": "NiepresJohn/jobhorizons-freelancing-marketplace",
+      "commit": "3795b35384fa6fb29cd84d3e3e51a83b3ef9366f",
+      "sourcePath": "src/components/ui/button.tsx",
+      "sourceSha256": "88698f43aac9da9c244a4f96fbe350129a0ae3a8eeaf30955390fc57cd9b2396",
+      "destination": "src/components/ui/button.tsx",
+      "license": "MIT",
+      "modifications": [
+        "Replace decorative glass and motion with canonical accessible states",
+        "Replace global utility closure with clsx"
+      ],
+      "validation": "Typecheck, lint, production build and actual browser flows passed."
+    }
+  ],
+  "sources": [
+    {
+      "repository": "NiepresJohn/jobhorizons-freelancing-marketplace",
+      "commit": "3795b35384fa6fb29cd84d3e3e51a83b3ef9366f",
+      "status": "source_inspected_one_primitive_adapted"
+    },
+    {
+      "repository": "freelancezero/freelancezero",
+      "commit": "c833f9f7f526d6e1f60b2c96a64caed84dfe4deb",
+      "status": "specification_reference_only_source_not_acquired"
+    },
+    {
+      "repository": "harshmriduhash/creatorbrief-ai",
+      "commit": "f3f8349db0d2a73652a3fa1517f1bcafabf8e668",
+      "status": "specification_reference_only_source_not_acquired"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+import { z } from 'zod';
+import { apiUser } from '@/server/auth/api-user';
+import { readJsonBody } from '@/server/http/body';
+import { HttpError,errorResponse,sameOrigin } from '@/server/http/errors';
+import { rpcError } from '@/server/http/rpc-error';
+export async function POST(request:Request,{params}:{params:Promise<{id:string}>}){const requestId=crypto.randomUUID();try{sameOrigin(request);const {db}=await apiUser('brand'),{id}=await params,key=z.uuid().safeParse(request.headers.get('Idempotency-Key')),body=z.strictObject({expectedApplicationVersion:z.number().int().positive(),expectedBriefRevision:z.number().int().positive(),reviewAcknowledgement:z.string().max(2000).nullable().default(null)}).safeParse(await readJsonBody(request));if(!key.success||!body.success||!z.uuid().safeParse(id).success)throw new HttpError('VALIDATION_FAILED',400,'Check the current application and brief revision.');const {data,error}=await db.rpc('select_application',{p_id:id,p_expected_application_version:body.data.expectedApplicationVersion,p_expected_brief_revision:body.data.expectedBriefRevision,p_review_ack:body.data.reviewAcknowledgement,p_key:key.data});if(error)rpcError(error);return Response.json({data,requestId});}catch(e){return errorResponse(e,requestId);}}
