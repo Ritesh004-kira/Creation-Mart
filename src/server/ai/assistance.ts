@@ -2,13 +2,17 @@ import 'server-only';
 import { createHash } from 'node:crypto';
 import { generateText, Output } from 'ai';
 import { gateway } from '@ai-sdk/gateway';
+import { getVercelOidcTokenSync } from '@vercel/oidc';
 import type { z } from 'zod';
 import type { apiUser } from '@/server/auth/api-user';
 import { HttpError } from '@/server/http/errors';
 import { rpcError } from '@/server/http/rpc-error';
 type Db=Awaited<ReturnType<typeof apiUser>>['db'];
 export const aiModel=()=>process.env.AI_GATEWAY_MODEL||'openai/gpt-4.1-mini';
-export function aiConfigured(){return Boolean(process.env.AI_GATEWAY_API_KEY||process.env.VERCEL_OIDC_TOKEN);}
+export function aiConfigured(){
+  if(process.env.AI_GATEWAY_API_KEY)return true;
+  try{return Boolean(getVercelOidcTokenSync());}catch{return false;}
+}
 export async function runAssistance<T,R extends object>(db:Db,kind:'brief'|'profile',key:string,input:unknown,schema:z.ZodType<T>,system:string,prepare:(output:T)=>R,signal:AbortSignal) {
   if(!aiConfigured())throw new HttpError('AI_NOT_CONFIGURED',503,'AI assistance needs the production Vercel AI Gateway connection. Your saved work is safe.');
   const hash=createHash('sha256').update(JSON.stringify({kind,input,model:aiModel(),schemaVersion:1})).digest('hex');
